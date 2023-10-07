@@ -1,7 +1,8 @@
 @import '../../sassResources/fonts.scss';
-
-.register-container {
+body {
   background-color: rgb(213, 213, 213);
+}
+.register-container {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -17,6 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 830px;
 
   -webkit-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
   -moz-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
@@ -31,7 +33,9 @@
     border-bottom-right-radius: 10px;
     background-image: url('../../images/register-photo.jpg');
     background-size: cover;
-    background-position-y: -500px;
+
+    background-position: center;
+    background-repeat: no-repeat;
 
     .afterglow {
       width: 100%;

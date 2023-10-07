@@ -15,7 +15,7 @@ public class RegisterUserController {
     @Autowired
     UserServiceImpl userService;
 
-    @PostMapping("/register")
+    @PostMapping("/api/register")
     public ResponseEntity<?> registerUser(@RequestBody UserModel userModel) throws InvalidPasswordConfirmationExcpetion {
         return userService.registerUser(userModel);
     }
