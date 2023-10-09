@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UserPanelControllerAPIModel {
+public class AuthorizationRequestModel {
 
     private User user;
     private String token;

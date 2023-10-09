@@ -10,11 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Service
 @Slf4j
@@ -35,7 +32,7 @@ public class UserServiceImpl implements UserService{
         this.tokenService = tokenService;
     }
 
-    public ResponseEntity<?> registerUser(UserModel userModel) throws InvalidPasswordConfirmationExcpetion {
+    public ResponseWithTokenModel registerUser(UserModel userModel) throws InvalidPasswordConfirmationExcpetion {
         logger.info("Password="+ userModel.getPassword());
         logger.info("ConfirmPassword="+ userModel.getConfirmPassword());
         if(!(userModel.getPassword().equals(userModel.getConfirmPassword()))) throw new InvalidPasswordConfirmationExcpetion("Passwords are diffrent");
@@ -55,9 +52,12 @@ public class UserServiceImpl implements UserService{
             userRepository.save(user);
 
 
-        ResponseWithTokenModel responseModel = new ResponseWithTokenModel("User registered", token);
-        return new ResponseEntity<>(responseModel, HttpStatus.OK);
+        return new ResponseWithTokenModel("User registered", token);
 
+    }
 
+    @Override
+    public User findUserByUsername(String username) {
+        return userRepository.getUserByUsername(username);
     }
 }

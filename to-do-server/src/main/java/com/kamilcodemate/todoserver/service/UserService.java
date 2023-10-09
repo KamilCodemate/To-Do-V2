@@ -1,9 +1,12 @@
 package com.kamilcodemate.todoserver.service;
 
+import com.kamilcodemate.todoserver.entity.User;
 import com.kamilcodemate.todoserver.exception.InvalidPasswordConfirmationExcpetion;
+import com.kamilcodemate.todoserver.model.ResponseWithTokenModel;
 import com.kamilcodemate.todoserver.model.UserModel;
-import org.springframework.http.ResponseEntity;
 
 public interface UserService {
-    public ResponseEntity<?> registerUser(UserModel userModel) throws InvalidPasswordConfirmationExcpetion;
+    public ResponseWithTokenModel registerUser(UserModel userModel) throws InvalidPasswordConfirmationExcpetion;
+
+    public User findUserByUsername(String username);
 }

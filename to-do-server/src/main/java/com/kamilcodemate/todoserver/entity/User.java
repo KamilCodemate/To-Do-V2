@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 
 @Entity
 @Data
@@ -29,6 +31,7 @@ public class User {
 
     @Length(min = 2, max = 15)
     @NotNull
+    @Column(unique = true)
     private String username;
 
     @NotNull
@@ -37,5 +40,8 @@ public class User {
 
     @NotNull
     private String role;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    List<Task> tasks;
 
 }

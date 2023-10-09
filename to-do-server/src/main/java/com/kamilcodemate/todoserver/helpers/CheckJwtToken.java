@@ -28,7 +28,7 @@ Logger logger = LoggerFactory.getLogger(CheckJwtToken.class);
     }
 
 
-    public Claims checkJwt(User user, String token)
+    public Claims checkJwt(String token)
     {
 
             Claims claims = Jwts.parser().setSigningKey(keyPair.publicKey()).parseClaimsJws(token).getBody();
