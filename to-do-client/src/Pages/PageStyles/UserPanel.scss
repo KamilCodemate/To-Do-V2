@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 @import '../../sassResources/fonts.scss';
 @import '../../sassResources/colors.scss';
 body {
@@ -31,14 +37,21 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0;
+    margin: 0;
 
     header {
       display: flex;
       width: 100%;
-      padding: 10px 0 0 20px;
+      padding-left: 10px;
       font-size: 30px;
-      color: $font-darkgrey;
+      color: white;
       font-weight: bold;
+      background-color: #171717;
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
+      height: 60px;
+      align-items: center;
     }
     .side-nav-menu-container {
       ul {

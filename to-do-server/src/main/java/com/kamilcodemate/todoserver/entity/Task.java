@@ -1,5 +1,6 @@
 package com.kamilcodemate.todoserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +29,8 @@ public class Task {
     private String name;
 
 
-    private Date date;
+    private LocalDate date;
+    private Time time;
     @NotNull
     private boolean isDone;
     @NotNull
@@ -34,7 +38,7 @@ public class Task {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
     private List<Subtasks> subtasks;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
