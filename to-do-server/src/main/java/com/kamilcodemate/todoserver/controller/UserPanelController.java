@@ -37,7 +37,7 @@ public class UserPanelController {
     @PostMapping("/api/user-panel/get-tasks-from-current-date")
     public ResponseEntity<List<Task>>  userPanel(@RequestBody GetAllTasksByDateAPIModel apiData)
     {
-
+        System.out.println(apiData.toString());
        Claims tokenClaims = checkJwtToken.checkJwt(apiData.getToken());
         String role = tokenClaims.get("role").toString();
 

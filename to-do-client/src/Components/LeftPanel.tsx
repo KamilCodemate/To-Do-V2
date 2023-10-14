@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { BsFillSunFill, BsExclamationDiamondFill } from 'react-icons/bs';
 import { GrSchedule } from 'react-icons/gr';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
+import axios from 'axios';
+import Task from '../Types/TaskInterface';
+
 const LeftPanel: React.FC<{}> = (): React.ReactElement => {
   return (
     <div className='left-panel'>

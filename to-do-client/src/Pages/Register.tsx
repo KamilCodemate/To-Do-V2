@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, FormEvent } from 'react';
 import './PageStyles/Register.scss';
 import axios from 'axios';
-
+import UserData from '../Types/UserData';
 import { useNavigate } from 'react-router-dom';
 
 interface RegisterData {
@@ -53,7 +53,13 @@ const Register: React.FC<{}> = (): React.ReactElement => {
       const response: any = await axios.post('/api/register', registerAPIObject);
       console.log(response);
       if (response.data.token && localStorage) {
-        localStorage.setItem('accessToken', response.data.token);
+        const userData: UserData = {
+          accessToken: response.data.token,
+          firstName: registerData.firstName,
+          lastName: registerData.lastName,
+          username: registerData.username,
+        };
+        localStorage.setItem('userData', JSON.stringify(userData));
         navigate('/panel');
       } else {
         console.log(
@@ -86,9 +92,6 @@ const Register: React.FC<{}> = (): React.ReactElement => {
               <input type='submit' value='Continue >>>' />
             </div>
           </form>
-          <div className='haveAnAcc'>
-            <h2>Already have and account? Log in</h2>
-          </div>
         </div>
 
         <div className='photo-area'>

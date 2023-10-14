@@ -4,17 +4,9 @@ import './PageStyles/UserPanel.scss';
 import { BsFillSunFill, BsExclamationDiamondFill } from 'react-icons/bs';
 import { GrSchedule } from 'react-icons/gr';
 import LeftPanel from '../Components/LeftPanel';
-interface Task {
-  name: string;
-  date: Date;
-  subtasks: Array<{
-    name: string;
-    isDone: boolean;
-  }>;
-  isDone: boolean;
-  isImportant: boolean;
-}
-
+import Task from '../Types/TaskInterface';
+import UserData from '../Types/UserData';
+import TodayTasks from '../Components/TodayTasks';
 interface PanelData {
   firstName: string;
   lastName: string;
@@ -24,6 +16,7 @@ interface PanelData {
 
 const UserPanel: React.FC<{}> = (): React.ReactElement => {
   const navigate = useNavigate();
+  const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
 
   const [panelData, setPanelData] = useState<PanelData>({
     firstName: 'Name',
@@ -36,7 +29,9 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
     <div className='user-panel-container'>
       <div className='user-panel'>
         <LeftPanel />
-        <div className='middle-panel'></div>
+        <div className='middle-panel'>
+          <TodayTasks username={userData.username} accessToken={userData.accessToken} />
+        </div>
         <div className='right-panel'></div>
       </div>
     </div>
