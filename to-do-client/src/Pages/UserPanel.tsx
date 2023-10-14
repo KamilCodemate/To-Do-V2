@@ -7,6 +7,8 @@ import LeftPanel from '../Components/LeftPanel';
 import Task from '../Types/TaskInterface';
 import UserData from '../Types/UserData';
 import TodayTasks from '../Components/TodayTasks';
+import RightPanel from '../Components/RightPanel';
+import { RightPanelMode } from '../Types/RightPanelMode';
 interface PanelData {
   firstName: string;
   lastName: string;
@@ -25,14 +27,20 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
     tasks: [],
   });
 
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+
+  const handleTaskSelect: any = (taskData: Task) => {
+    setSelectedTask(taskData);
+  };
   return (
     <div className='user-panel-container'>
       <div className='user-panel'>
         <LeftPanel />
         <div className='middle-panel'>
-          <TodayTasks username={userData.username} accessToken={userData.accessToken} />
+          <TodayTasks username={userData.username} accessToken={userData.accessToken} taskClickHandler={handleTaskSelect} />
         </div>
-        <div className='right-panel'></div>
+
+        <RightPanel mode={RightPanelMode.SeeTaskDetails} operatingTask={selectedTask} />
       </div>
     </div>
   );

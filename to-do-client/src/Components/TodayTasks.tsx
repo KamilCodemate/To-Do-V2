@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsFillCalendarWeekFill } from 'react-icons/bs';
+import { AiOutlineStar, AiTwotoneStar } from 'react-icons/ai';
+import { IoIosCheckmarkCircleOutline, IoIosCheckmarkCircle } from 'react-icons/io';
 import axios from 'axios';
 import Task from '../Types/TaskInterface';
+import './ComponentStyles/TodayTasks.scss';
+import { IoCheckmarkCircle, IoCheckmarkCircleOutline } from 'react-icons/io5';
 type Props = {
   username: string;
   accessToken: string;
+  taskClickHandler: any;
 };
-const TodayTasks: React.FC<Props> = ({ username, accessToken }): React.ReactElement => {
+const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler }): React.ReactElement => {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState<Array<Task> | null>(null);
   const [mappedTasks, setMappedTasks] = useState();
@@ -40,34 +45,47 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken }): React.ReactElem
 
   return (
     <div className='today-tasks-container'>
-      {tasks &&
-        tasks.map((element) => {
-          return (
-            <div className='singleTask'>
-              <div className='first-row'>
-                <h3>{element.name}</h3>
-              </div>
-              <div className='second-row'>
-                <div className='task-date'>
-                  <BsFillCalendarWeekFill /> {element.date.toString()}
-                </div>
-                {element.subtasks.length > 0 ? (
-                  <div className='task-other'>
-                    <div className='task-subtask'>
-                      {element.subtasks.map((subtask) => {
-                        return (
-                          <div className='subtask'>
-                            <h4>{subtask.name}</h4>
-                          </div>
-                        );
-                      })}
-                    </div>
+      <header>Today</header>
+      <div className='tasks'>
+        {tasks &&
+          tasks.map((element) => {
+            return (
+              <div className='single-task' onClick={() => taskClickHandler(element)}>
+                <div className='left-col'>
+                  <div className='first-row'>
+                    <h3>
+                      {element.name}{' '}
+                      {element.subtasks.length > 0 ? `,<span className = 'substep-count'> ${element.subtasks.length} substeps </span>` : null}
+                    </h3>
                   </div>
-                ) : null}
+                  <div className='second-row'>
+                    <div className='task-date'>
+                      <BsFillCalendarWeekFill /> {'Today'}
+                      {element.time ? `, ${element.time.substring(0, 5)}` : null}
+                    </div>
+                    {element.subtasks.length > 0 ? (
+                      <div className='task-other'>
+                        <div className='task-subtask'>
+                          {element.subtasks.map((subtask) => {
+                            return (
+                              <div className='subtask'>
+                                <h4>{subtask.name}</h4>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div className='right-col'>
+                  {element.isImportant ? <AiTwotoneStar /> : <AiOutlineStar />}
+                  {element.isDone ? <IoCheckmarkCircle /> : <IoCheckmarkCircleOutline />}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+      </div>
     </div>
   );
 };

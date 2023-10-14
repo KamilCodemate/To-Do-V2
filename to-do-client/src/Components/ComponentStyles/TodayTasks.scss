@@ -1,0 +1,69 @@
+@import '../../sassResources/fonts.scss';
+.today-tasks-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .tasks {
+    width: 100%;
+    overflow-y: auto;
+    height: 100%;
+  }
+  header {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    font-family: $monsterratFont;
+  }
+
+  .single-task {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 0px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding-left: 20px;
+    background-color: rgb(215, 215, 215);
+    font-family: $poppinsFont;
+  }
+
+  .left-col {
+    width: 80%;
+  }
+  .right-col {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    width: 20%;
+    gap: 10px;
+    svg {
+      font-size: 25px;
+    }
+    svg:nth-child(1):hover {
+      cursor: pointer;
+      color: rgb(255, 255, 0);
+    }
+    svg:nth-child(2):hover {
+      cursor: pointer;
+      fill: green;
+      color: green;
+    }
+  }
+
+  .first-row,
+  .second-row {
+    display: flex;
+  }
+  .second-row {
+    font-family: $rubikFont;
+    font-weight: 500;
+  }
+}
