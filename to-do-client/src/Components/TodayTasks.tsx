@@ -7,15 +7,18 @@ import axios from 'axios';
 import Task from '../Types/TaskInterface';
 import './ComponentStyles/TodayTasks.scss';
 import { IoCheckmarkCircle, IoCheckmarkCircleOutline } from 'react-icons/io5';
+import UpdateTasks from '../Types/UpdateTasks';
 type Props = {
   username: string;
   accessToken: string;
   taskClickHandler: any;
 };
+const requestPath: string = '/api/user-panel/get-tasks-from-current-date';
 const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler }): React.ReactElement => {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState<Array<Task> | null>(null);
   const [mappedTasks, setMappedTasks] = useState();
+
   const getAllTasksToday = async () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -29,7 +32,6 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler }
       date: todayFormattedDate,
     };
 
-    const requestPath: string = '/api/user-panel/get-tasks-from-current-date';
     try {
       const response = await axios.post(requestPath, requestData);
       console.log(response);
@@ -37,6 +39,36 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler }
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const updateTasksInDb = async (taskToUpdate: Task) => {
+    const requestData: UpdateTasks = {
+      username: username,
+      token: accessToken,
+      important: taskToUpdate.important,
+      taskId: taskToUpdate.id,
+    };
+    console.log(requestData);
+    try {
+      const resposne = await axios.put(requestPath, requestData);
+      console.log(resposne);
+      getAllTasksToday();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleTaskClick = (taskId: number): void => {
+    if (!tasks) return;
+
+    const tasksCopy = tasks;
+    if (!tasks) return;
+    const foundTask = tasks?.find((e) => e.id === taskId);
+    if (!foundTask || typeof foundTask === 'undefined') return;
+    // console.log(foundTask.important);
+    foundTask.important = !foundTask?.important;
+    // console.log(foundTask);
+    updateTasksInDb(foundTask);
   };
 
   useEffect(() => {
@@ -50,7 +82,7 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler }
         {tasks &&
           tasks.map((element) => {
             return (
-              <div className='single-task' onClick={() => taskClickHandler(element)}>
+              <div className='single-task'>
                 <div className='left-col'>
                   <div className='first-row'>
                     <h3>
@@ -79,7 +111,11 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler }
                   </div>
                 </div>
                 <div className='right-col'>
-                  {element.isImportant ? <AiTwotoneStar /> : <AiOutlineStar />}
+                  {element.important ? (
+                    <AiTwotoneStar onClick={() => handleTaskClick(element.id)} />
+                  ) : (
+                    <AiOutlineStar onClick={() => handleTaskClick(element.id)} />
+                  )}
                   {element.isDone ? <IoCheckmarkCircle /> : <IoCheckmarkCircleOutline />}
                 </div>
               </div>

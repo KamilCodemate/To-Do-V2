@@ -1,4 +1,5 @@
 export default interface Task {
+  id: number;
   name: string;
   date: Date;
   time?: string;
@@ -7,5 +8,5 @@ export default interface Task {
     isDone: boolean;
   }>;
   isDone: boolean;
-  isImportant: boolean;
+  important: boolean;
 }
