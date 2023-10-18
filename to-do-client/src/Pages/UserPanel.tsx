@@ -19,7 +19,7 @@ interface PanelData {
 const UserPanel: React.FC<{}> = (): React.ReactElement => {
   const navigate = useNavigate();
   const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
-
+  const [rightPanelMode] = useState<RightPanelMode>(RightPanelMode.None);
   const [panelData, setPanelData] = useState<PanelData>({
     firstName: 'Name',
     lastName: 'Surname',
@@ -35,12 +35,16 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
   return (
     <div className='user-panel-container'>
       <div className='user-panel'>
-        <LeftPanel />
-        <div className='middle-panel'>
-          <TodayTasks username={userData.username} accessToken={userData.accessToken} taskClickHandler={handleTaskSelect} />
-        </div>
+        <LeftPanel extended={rightPanelMode !== RightPanelMode.None} />
 
-        <RightPanel mode={RightPanelMode.SeeTaskDetails} operatingTask={selectedTask} />
+        <TodayTasks
+          username={userData.username}
+          accessToken={userData.accessToken}
+          taskClickHandler={handleTaskSelect}
+          extended={rightPanelMode !== RightPanelMode.None}
+        />
+
+        {rightPanelMode !== RightPanelMode.None && <RightPanel mode={rightPanelMode} operatingTask={selectedTask} />}
       </div>
     </div>
   );

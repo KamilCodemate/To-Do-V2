@@ -12,9 +12,10 @@ type Props = {
   username: string;
   accessToken: string;
   taskClickHandler: any;
+  extended: boolean;
 };
 const requestPath: string = '/api/user-panel/get-tasks-from-current-date';
-const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler }): React.ReactElement => {
+const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, extended }): React.ReactElement => {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState<Array<Task> | null>(null);
   const [mappedTasks, setMappedTasks] = useState();
@@ -76,7 +77,7 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler }
   }, []);
 
   return (
-    <div className='today-tasks-container'>
+    <div className='today-tasks-container' style={{ width: extended ? '50%' : '75%' }}>
       <header>Today</header>
       <div className='tasks'>
         {tasks &&
@@ -112,7 +113,7 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler }
                 </div>
                 <div className='right-col'>
                   {element.important ? (
-                    <AiTwotoneStar onClick={() => handleTaskClick(element.id)} />
+                    <AiTwotoneStar onClick={() => handleTaskClick(element.id)} style={{ color: 'yellow' }} />
                   ) : (
                     <AiOutlineStar onClick={() => handleTaskClick(element.id)} />
                   )}

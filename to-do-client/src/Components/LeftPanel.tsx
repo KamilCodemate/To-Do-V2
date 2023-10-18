@@ -6,9 +6,9 @@ import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import axios from 'axios';
 import Task from '../Types/TaskInterface';
 
-const LeftPanel: React.FC<{}> = (): React.ReactElement => {
+const LeftPanel: React.FC<{ extended: boolean }> = ({ extended }): React.ReactElement => {
   return (
-    <div className='left-panel'>
+    <div className='left-panel' style={{ width: extended ? '20%' : '35%' }}>
       <header>Menu</header>
 
       <div className='side-nav-menu-container'>
