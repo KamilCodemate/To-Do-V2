@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PageStyles/UserPanel.scss';
-import { BsFillSunFill, BsExclamationDiamondFill } from 'react-icons/bs';
-import { GrSchedule } from 'react-icons/gr';
 import LeftPanel from '../Components/LeftPanel';
 import Task from '../Types/TaskInterface';
 import UserData from '../Types/UserData';
@@ -19,7 +17,7 @@ interface PanelData {
 const UserPanel: React.FC<{}> = (): React.ReactElement => {
   const navigate = useNavigate();
   const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
-  const [rightPanelMode] = useState<RightPanelMode>(RightPanelMode.None);
+  const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>(RightPanelMode.None);
   const [panelData, setPanelData] = useState<PanelData>({
     firstName: 'Name',
     lastName: 'Surname',
@@ -32,10 +30,15 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
   const handleTaskSelect: any = (taskData: Task) => {
     setSelectedTask(taskData);
   };
+
+  const handleAddTask = () => {
+    if (rightPanelMode === RightPanelMode.None || rightPanelMode === RightPanelMode.SeeTaskDetails) setRightPanelMode(RightPanelMode.CreateTask);
+    else setRightPanelMode(RightPanelMode.None);
+  };
   return (
     <div className='user-panel-container'>
       <div className='user-panel'>
-        <LeftPanel extended={rightPanelMode !== RightPanelMode.None} />
+        <LeftPanel extended={rightPanelMode !== RightPanelMode.None} handleAddTask={handleAddTask} />
 
         <TodayTasks
           username={userData.username}

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { BsFillSunFill, BsExclamationDiamondFill } from 'react-icons/bs';
+
+import { BsFillSunFill, BsExclamationDiamondFill, BsPlusSquareFill } from 'react-icons/bs';
 import { GrSchedule } from 'react-icons/gr';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
-import axios from 'axios';
-import Task from '../Types/TaskInterface';
 
-const LeftPanel: React.FC<{ extended: boolean }> = ({ extended }): React.ReactElement => {
+type Props = {
+  extended: boolean;
+  handleAddTask: () => void;
+};
+
+const LeftPanel: React.FC<Props> = ({ extended, handleAddTask }): React.ReactElement => {
   return (
     <div className='left-panel' style={{ width: extended ? '20%' : '35%' }}>
       <header>Menu</header>
@@ -42,6 +45,9 @@ const LeftPanel: React.FC<{ extended: boolean }> = ({ extended }): React.ReactEl
               <div className='liSecond'>5</div>
             </li>
           </ul>
+          <div className='add-task-container'>
+            <BsPlusSquareFill size={60} color={'#171717'} onClick={handleAddTask} />
+          </div>
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import { BsFillCalendarWeekFill } from 'react-icons/bs';
 import { AiOutlineStar, AiTwotoneStar } from 'react-icons/ai';
-import { IoIosCheckmarkCircleOutline, IoIosCheckmarkCircle } from 'react-icons/io';
+
 import axios from 'axios';
 import Task from '../Types/TaskInterface';
 import './ComponentStyles/TodayTasks.scss';
@@ -16,7 +16,6 @@ type Props = {
 };
 const requestPath: string = '/api/user-panel/get-tasks-from-current-date';
 const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, extended }): React.ReactElement => {
-  const navigate = useNavigate();
   const [tasks, setTasks] = useState<Array<Task> | null>(null);
   const [mappedTasks, setMappedTasks] = useState();
 
@@ -74,7 +73,7 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, 
 
   useEffect(() => {
     getAllTasksToday();
-  }, []);
+  });
 
   return (
     <div className='today-tasks-container' style={{ width: extended ? '50%' : '75%' }}>
@@ -100,11 +99,13 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, 
                       <div className='task-other'>
                         <div className='task-subtask'>
                           {element.subtasks.map((subtask) => {
-                            return (
-                              <div className='subtask'>
-                                <h4>{subtask.name}</h4>
-                              </div>
-                            );
+                            if (!subtask.isDone)
+                              return (
+                                <div className='subtask'>
+                                  <h4>{subtask.name}</h4>
+                                </div>
+                              );
+                            else return null;
                           })}
                         </div>
                       </div>

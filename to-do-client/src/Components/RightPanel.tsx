@@ -7,6 +7,8 @@ type Props = {
   operatingTask: Task | null;
 };
 
+const AddTaskPanelContainer = <div className='add-task-panel-container'></div>;
+
 const RightPanel: React.FC<Props> = ({ mode, operatingTask }): React.ReactElement => {
   return (
     <div className='right-panel'>

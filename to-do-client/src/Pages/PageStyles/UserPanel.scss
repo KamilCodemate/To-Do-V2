@@ -70,6 +70,9 @@ body {
         margin-top: 40px;
         display: flex;
         align-items: flex-start;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-bottom: 30px;
       }
       ul {
         width: 100%;
@@ -127,5 +130,18 @@ body {
     height: 100%;
     background-color: $lightgrey-darker-lvl2;
     border-radius: 10px;
+  }
+}
+.add-task-container {
+  width: 100%;
+  display: flex;
+  padding-right: 10px;
+  justify-content: end;
+  svg {
+    transition-duration: 0.3s;
+  }
+  svg:hover {
+    cursor: pointer;
+    fill: rgb(66, 66, 66);
   }
 }
