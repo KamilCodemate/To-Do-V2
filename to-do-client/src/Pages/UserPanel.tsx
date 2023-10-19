@@ -5,8 +5,9 @@ import LeftPanel from '../Components/LeftPanel';
 import Task from '../Types/TaskInterface';
 import UserData from '../Types/UserData';
 import TodayTasks from '../Components/TodayTasks';
-import RightPanel from '../Components/RightPanel';
+
 import { RightPanelMode } from '../Types/RightPanelMode';
+import HelloPanel from '../Components/HelloPanel';
 interface PanelData {
   firstName: string;
   lastName: string;
@@ -19,7 +20,7 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
   const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
   const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>(RightPanelMode.None);
   const [panelData, setPanelData] = useState<PanelData>({
-    firstName: 'Name',
+    firstName: 'Kamil',
     lastName: 'Surname',
     username: 'Username',
     tasks: [],
@@ -38,16 +39,16 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
   return (
     <div className='user-panel-container'>
       <div className='user-panel'>
-        <LeftPanel extended={rightPanelMode !== RightPanelMode.None} handleAddTask={handleAddTask} />
-
-        <TodayTasks
-          username={userData.username}
-          accessToken={userData.accessToken}
-          taskClickHandler={handleTaskSelect}
-          extended={rightPanelMode !== RightPanelMode.None}
-        />
-
-        {rightPanelMode !== RightPanelMode.None && <RightPanel mode={rightPanelMode} operatingTask={selectedTask} />}
+        <LeftPanel handleAddTask={handleAddTask} />
+        <div className='middle-panel'>
+          {/* <TodayTasks
+            username={userData.username}
+            accessToken={userData.accessToken}
+            taskClickHandler={handleTaskSelect}
+            extended={rightPanelMode !== RightPanelMode.None}
+          /> */}
+          <HelloPanel firstName={panelData.firstName} />
+        </div>
       </div>
     </div>
   );

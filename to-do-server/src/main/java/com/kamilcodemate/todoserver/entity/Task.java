@@ -35,6 +35,7 @@ public class Task {
     private boolean isDone;
     @NotNull
     private boolean isImportant;
+    private String description;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
     private List<Subtasks> subtasks;

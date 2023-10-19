@@ -1,0 +1,28 @@
+@import '../../sassResources/fonts.scss';
+
+.hello-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .welcome-text {
+    font-family: $poppinsFont;
+    display: flex;
+    padding-left: 7%;
+    align-items: center;
+    height: auto;
+    padding-top: 5%;
+    font-size: 33px;
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    .welcome-second {
+      color: rgb(85, 85, 85);
+      font-size: 20px;
+      text-indent: 3px;
+    }
+  }
+}
