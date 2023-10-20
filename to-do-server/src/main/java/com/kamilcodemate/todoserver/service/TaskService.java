@@ -10,4 +10,5 @@ public interface TaskService {
 public Task saveTask(Task task);
 public List<Task> getTaskByDate(LocalDate date, String username);
     public Integer updateIsImportantTaskAttributeById(boolean isImportant, Long id);
+    public List<Task> getAllUserTasks(String username);
 }

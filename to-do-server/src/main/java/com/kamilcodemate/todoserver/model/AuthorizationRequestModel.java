@@ -8,6 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthorizationRequestModel {
 
-    private User user;
+    private String username;
     private String token;
 }

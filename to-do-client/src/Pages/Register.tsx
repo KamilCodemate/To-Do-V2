@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import './PageStyles/Register.scss';
 import axios from 'axios';
 import UserData from '../Types/UserData';

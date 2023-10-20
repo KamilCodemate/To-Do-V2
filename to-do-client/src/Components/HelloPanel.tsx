@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './ComponentStyles/HelloPanel.scss';
+import MyTasks from './MyTasks';
+import UserData from '../Types/UserData';
 const requestPath: string = '/api/user-panel/get-tasks-from-current-date';
 
 type Props = {
   firstName: string;
+  username: string;
+  token: string;
 };
 
-const HelloPanel: React.FC<Props> = ({ firstName }): React.ReactElement => {
+const HelloPanel: React.FC<Props> = ({ firstName, username, token }): React.ReactElement => {
   const [welcomeText, setWelcomeText] = useState<string>('');
   const [formattedDate, setFormattedDate] = useState<string>('');
 
@@ -42,10 +46,12 @@ const HelloPanel: React.FC<Props> = ({ firstName }): React.ReactElement => {
 
   return (
     <div className='hello-container'>
-      <div className='welcome-text'>
+      <div className='left-column'>
         <div className='welcome-first'>{welcomeText}</div>
         <div className='welcome-second'>{`\n${formattedDate}`}</div>
+        <MyTasks username={username} token={token} />
       </div>
+      <div className='calendar-container'></div>
     </div>
   );
 };

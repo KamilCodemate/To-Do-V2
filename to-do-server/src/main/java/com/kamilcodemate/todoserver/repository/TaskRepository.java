@@ -14,7 +14,7 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
     public List<Task> getTaskByDateAndUserUsername(LocalDate date, String username);
-
+    public List<Task> getTasksByUserUsername(String username);
 
     @Modifying
     @Transactional

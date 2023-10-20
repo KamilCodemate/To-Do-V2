@@ -19,12 +19,6 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
   const navigate = useNavigate();
   const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
   const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>(RightPanelMode.None);
-  const [panelData, setPanelData] = useState<PanelData>({
-    firstName: 'Kamil',
-    lastName: 'Surname',
-    username: 'Username',
-    tasks: [],
-  });
 
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
@@ -39,7 +33,7 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
   return (
     <div className='user-panel-container'>
       <div className='user-panel'>
-        <LeftPanel handleAddTask={handleAddTask} />
+        <LeftPanel handleAddTask={handleAddTask} username={userData.username} token={userData.accessToken} />
         <div className='middle-panel'>
           {/* <TodayTasks
             username={userData.username}
@@ -47,7 +41,7 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
             taskClickHandler={handleTaskSelect}
             extended={rightPanelMode !== RightPanelMode.None}
           /> */}
-          <HelloPanel firstName={panelData.firstName} />
+          <HelloPanel firstName={userData.firstName} username={userData.username} token={userData.accessToken} />
         </div>
       </div>
     </div>

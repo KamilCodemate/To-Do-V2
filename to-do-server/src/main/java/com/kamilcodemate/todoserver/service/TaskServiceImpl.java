@@ -36,4 +36,10 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.updateIsImportantTaskAttributeById(isImportant, id);
 
     }
+
+    @Override
+    public List<Task> getAllUserTasks(String username) {
+
+        return taskRepository.getTasksByUserUsername(username);
+    }
 }

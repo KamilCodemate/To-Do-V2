@@ -1,11 +1,16 @@
 package com.kamilcodemate.todoserver.controller;
 
 import com.kamilcodemate.todoserver.entity.Task;
+import com.kamilcodemate.todoserver.entity.User;
 import com.kamilcodemate.todoserver.helpers.CheckJwtToken;
+import com.kamilcodemate.todoserver.model.AuthorizationRequestModel;
+import com.kamilcodemate.todoserver.model.TaskModels.AddTaskRequestModel;
 import com.kamilcodemate.todoserver.model.TaskModels.GetAllTasksByDateAPIModel;
 import com.kamilcodemate.todoserver.model.TaskModels.UpdateTaskModel;
 import com.kamilcodemate.todoserver.service.TaskServiceImpl;
+import com.kamilcodemate.todoserver.service.UserServiceImpl;
 import io.jsonwebtoken.Claims;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +32,9 @@ public class UserPanelController {
 
     @Autowired
     TaskServiceImpl taskService;
+
+    @Autowired
+    UserServiceImpl userService;
 
 
 
@@ -65,5 +73,45 @@ public class UserPanelController {
             return new ResponseEntity<>("Task updated.", HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+    @PostMapping("/api/userpanel/addtask")
+    public ResponseEntity<?> addTask(@RequestBody AddTaskRequestModel data)
+    {
+
+        Claims tokenClaims = checkJwtToken.checkJwt(data.getToken());
+        final String ROLE = tokenClaims.get("role").toString();
+        final String USERNAME = data.getUsername();
+
+        User user = userService.findUserByUsername(USERNAME);
+        if(user == null) throw new EntityNotFoundException("No user found");
+
+        Task task = new Task();
+        task.setName(data.getName());
+        task.setDate(null);
+        task.setDone(false);
+        task.setImportant(false);
+        task.setSubtasks(null);
+        task.setUser(user);
+
+        Task responseTask = taskService.saveTask(task);
+        if(responseTask == null) throw new InternalError("An error occurred on our side. Please try again later");
+
+        return new ResponseEntity<>("Task saved.", HttpStatus.OK);
+    }
+
+    @PostMapping("/api/userpanel/getalltasks")
+    public ResponseEntity<List<Task>> getAllTasks(@RequestBody AuthorizationRequestModel requestData) {
+        final String TOKEN = requestData.getToken();
+        final String USERNAME = requestData.getUsername();
+        Claims tokenClaims = checkJwtToken.checkJwt(requestData.getToken());
+        final String ROLE = tokenClaims.get("role").toString();
+        if(ROLE.equals("USER"))
+        {
+            List<Task> taskList = taskService.getAllUserTasks(USERNAME);
+            return new ResponseEntity<>(taskList, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+
     }
 }

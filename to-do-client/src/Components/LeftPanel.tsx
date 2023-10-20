@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from 'react';
-
+import axios from 'axios';
 import { BsFillSunFill, BsExclamationDiamondFill, BsPlusSquareFill } from 'react-icons/bs';
 import { GrSchedule } from 'react-icons/gr';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { AiFillHome } from 'react-icons/ai';
 type Props = {
+  username: string;
+  token: string;
   handleAddTask: () => void;
 };
 
-const LeftPanel: React.FC<Props> = ({ handleAddTask }): React.ReactElement => {
+const LeftPanel: React.FC<Props> = ({ handleAddTask, username, token }): React.ReactElement => {
+  const getAllTasks = async () => {
+    const requestData = {
+      username: username,
+      token: token,
+    };
+    try {
+      const response = await axios.post('/api/userpanel/getalltasks');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className='left-panel'>
       <div className='side-nav-menu-container'>
