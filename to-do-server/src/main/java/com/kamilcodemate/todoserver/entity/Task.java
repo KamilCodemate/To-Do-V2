@@ -10,7 +10,6 @@ import org.hibernate.validator.constraints.Length;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -38,7 +37,7 @@ public class Task {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
-    private List<Subtasks> subtasks;
+    private List<Subtask> subtasks;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

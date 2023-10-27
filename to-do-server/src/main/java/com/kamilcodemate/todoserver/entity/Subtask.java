@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-public class Subtasks {
+public class Subtask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

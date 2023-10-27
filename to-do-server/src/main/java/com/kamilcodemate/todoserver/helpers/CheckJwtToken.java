@@ -28,13 +28,12 @@ Logger logger = LoggerFactory.getLogger(CheckJwtToken.class);
     }
 
 
-    public Claims checkJwt(String token)
-    {
+    public Claims checkJwt(String token, String username) throws InvalidTokenException {
 
             Claims claims = Jwts.parser().setSigningKey(keyPair.publicKey()).parseClaimsJws(token).getBody();
-
-            logger.info("CLAIMS=" + claims);
-
+            if(!(claims.getSubject().equals(username))) {
+             throw new InvalidTokenException("Invalid token");
+            }
             return claims;
 
 

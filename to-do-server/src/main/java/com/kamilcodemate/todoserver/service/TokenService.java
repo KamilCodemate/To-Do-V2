@@ -32,6 +32,7 @@ public class TokenService {
        String role = user.getRole();
 
        JwtClaimsSet claimsSet = JwtClaimsSet.builder()
+               .subject(user.getUsername())
                .issuer("self")
                .issuedAt(now)
                .expiresAt(now.plus(7, ChronoUnit.DAYS))

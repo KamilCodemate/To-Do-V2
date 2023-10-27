@@ -2,6 +2,7 @@ package com.kamilcodemate.todoserver.controller;
 
 import com.kamilcodemate.todoserver.entity.Task;
 import com.kamilcodemate.todoserver.entity.User;
+import com.kamilcodemate.todoserver.exception.InvalidTokenException;
 import com.kamilcodemate.todoserver.helpers.CheckJwtToken;
 import com.kamilcodemate.todoserver.model.AuthorizationRequestModel;
 import com.kamilcodemate.todoserver.model.TaskModels.AddTaskRequestModel;
@@ -41,15 +42,14 @@ public class UserPanelController {
 
 
     @PostMapping("/api/user-panel/get-tasks-from-current-date")
-    public ResponseEntity<List<Task>> getTasksFromCurrentDate(@RequestBody GetAllTasksByDateAPIModel apiData)
-    {
+    public ResponseEntity<List<Task>> getTasksFromCurrentDate(@RequestBody GetAllTasksByDateAPIModel requestData) throws InvalidTokenException {
 
-       Claims tokenClaims = checkJwtToken.checkJwt(apiData.getToken());
+       Claims tokenClaims = checkJwtToken.checkJwt(requestData.getToken(), requestData.getUsername());
         String role = tokenClaims.get("role").toString();
 
         if(role.equals("USER"))
         {
-            List<Task> tasks = taskService.getTaskByDate(apiData.getDate(), apiData.getUsername());
+            List<Task> tasks = taskService.getTaskByDate(requestData.getDate(), requestData.getUsername());
 
             return new ResponseEntity<>(tasks, HttpStatus.OK);
         }
@@ -57,17 +57,17 @@ public class UserPanelController {
     }
 
     @PutMapping("/api/user-panel/get-tasks-from-current-date")
-    public ResponseEntity<String> updateTasks(@RequestBody UpdateTaskModel updateData){
-        System.out.println("Update data = "+updateData);
-        final Long ID = updateData.getTaskId();
-        final String TOKEN = updateData.getToken();
-        final String USERNAME = updateData.getUsername();
+    public ResponseEntity<String> updateTasks(@RequestBody UpdateTaskModel requestData) throws InvalidTokenException {
+        System.out.println("Update data = "+requestData);
+        final Long ID = requestData.getTaskId();
+        final String TOKEN = requestData.getToken();
+        final String USERNAME = requestData.getUsername();
 
-        Claims tokenClaims = checkJwtToken.checkJwt(TOKEN);
+        Claims tokenClaims = checkJwtToken.checkJwt(TOKEN, requestData.getUsername());
         String role = tokenClaims.get("role").toString();
         if(role.equals("USER"))
         {
-            Integer retTask = taskService.updateIsImportantTaskAttributeById(updateData.isImportant(), updateData.getTaskId());
+            Integer retTask = taskService.updateIsImportantTaskAttributeById(requestData.isImportant(), requestData.getTaskId());
 
             if(retTask == null) return new ResponseEntity<>("Task on given id does not exist", HttpStatus.NOT_FOUND);
             return new ResponseEntity<>("Task updated.", HttpStatus.OK);
@@ -75,18 +75,17 @@ public class UserPanelController {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
     @PostMapping("/api/userpanel/addtask")
-    public ResponseEntity<?> addTask(@RequestBody AddTaskRequestModel data)
-    {
+    public ResponseEntity<?> addTask(@RequestBody AddTaskRequestModel requestData) throws InvalidTokenException {
 
-        Claims tokenClaims = checkJwtToken.checkJwt(data.getToken());
+        Claims tokenClaims = checkJwtToken.checkJwt(requestData.getToken(), requestData.getUsername());
         final String ROLE = tokenClaims.get("role").toString();
-        final String USERNAME = data.getUsername();
+        final String USERNAME = requestData.getUsername();
 
         User user = userService.findUserByUsername(USERNAME);
         if(user == null) throw new EntityNotFoundException("No user found");
 
         Task task = new Task();
-        task.setName(data.getName());
+        task.setName(requestData.getName());
         task.setDate(null);
         task.setDone(false);
         task.setImportant(false);
@@ -100,10 +99,10 @@ public class UserPanelController {
     }
 
     @PostMapping("/api/userpanel/getalltasks")
-    public ResponseEntity<List<Task>> getAllTasks(@RequestBody AuthorizationRequestModel requestData) {
+    public ResponseEntity<List<Task>> getAllTasks(@RequestBody AuthorizationRequestModel requestData) throws InvalidTokenException {
         final String TOKEN = requestData.getToken();
         final String USERNAME = requestData.getUsername();
-        Claims tokenClaims = checkJwtToken.checkJwt(requestData.getToken());
+        Claims tokenClaims = checkJwtToken.checkJwt(requestData.getToken(), USERNAME);
         final String ROLE = tokenClaims.get("role").toString();
         if(ROLE.equals("USER"))
         {
@@ -114,4 +113,8 @@ public class UserPanelController {
 
 
     }
+
+   
+
+
 }
