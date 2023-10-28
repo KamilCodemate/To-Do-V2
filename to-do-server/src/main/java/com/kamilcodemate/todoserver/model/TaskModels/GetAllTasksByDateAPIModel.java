@@ -14,6 +14,5 @@ import java.time.LocalDate;
 public class GetAllTasksByDateAPIModel {
 
     String username;
-    String token;
     LocalDate date;
 }

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 public class UpdateTaskModel {
 
     private String username;
-    private String token;
     private boolean isImportant;
     private Long taskId;
 }

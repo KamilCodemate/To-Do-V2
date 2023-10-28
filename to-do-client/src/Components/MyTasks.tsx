@@ -15,11 +15,15 @@ const MyTasks: React.FC<Props> = ({ username, token }): React.ReactElement => {
   const getAllTasks = async () => {
     const requestData = {
       username: username,
-      token: token,
+    };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     };
 
     try {
-      const response = await axios.post('/api/userpanel/getalltasks', requestData);
+      const response = await axios.post('/api/userpanel/getalltasks', requestData, config);
       setTasks(response.data);
       console.log(response);
     } catch (err) {
