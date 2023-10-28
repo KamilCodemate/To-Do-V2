@@ -23,45 +23,40 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * Security Configuration
+ * Security Configuration for the application.
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-
-    /**
-     * Rsa Keypair Bean
-     */
     private final RsaKeyProperties rsaKeys;
 
-
-    /** IOC contructor
-     * @param rsaKeys kaypair
+    /**
+     * IOC constructor.
+     * @param rsaKeys RSA keypair
      */
-    public SecurityConfig(RsaKeyProperties rsaKeys) {
+    public SecurityConfig(final RsaKeyProperties rsaKeys) {
         this.rsaKeys = rsaKeys;
     }
 
-    /** Security Filter Chain
-     * @param httpSecurity HTTPSecurity parameter
-     * @return httpSecutiry configuration
+    /**
+     * Security Filter Chain configuration.
+     * @param httpSecurity HTTP Security parameter
+     * @return HTTP Security configuration
      * @throws Exception Throws Spring internal exceptions
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+    public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-
                 .build();
     }
 
-
-    /**  Bcrypt configuration
+    /**
+     * Bcrypt configuration.
      * @return Bcrypt configuration
      */
     @Bean
@@ -69,21 +64,21 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    /**NimbusJWTDecoder configuration
-     * @return NimbusJWTDecoder configuration
+    /**
+     * Nimbus JWT Decoder configuration.
+     * @return Nimbus JWT Decoder configuration
      */
     @Bean
-    JwtDecoder jwtDecoder()
-    {
+    public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
     }
 
-    /** NimbusJWTEncoder configuration
-     * @return NimbusJWTEncoder configuration
+    /**
+     * Nimbus JWT Encoder configuration.
+     * @return Nimbus JWT Encoder configuration
      */
     @Bean
-    JwtEncoder jwtEncoder()
-    {
+    public JwtEncoder jwtEncoder() {
         JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);

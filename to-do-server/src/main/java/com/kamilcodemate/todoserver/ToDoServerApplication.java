@@ -6,17 +6,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
- * Main Application Class
+ * Main Application Class.
  */
 @SpringBootApplication
 @EnableConfigurationProperties(RsaKeyProperties.class)
 public class ToDoServerApplication {
 
-	/** Main method
-	 * @param args default args
+	/**
+	 * Main method to start the application.
+	 * @param args default arguments
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		SpringApplication.run(ToDoServerApplication.class, args);
 	}
-
 }

@@ -33,7 +33,7 @@ public class RegisterUserController {
     /**
      * Registering a new user
      * @param userModel User model to register a new user
-     * @return ReponseEntity with HttpStatus and registered user (if successful)
+     * @return ResponseEntity with HttpStatus and registered user (if successful)
      * @throws InvalidPasswordConfirmationException Throws when passwords are not the same
      */
     @PostMapping("/api/register")
