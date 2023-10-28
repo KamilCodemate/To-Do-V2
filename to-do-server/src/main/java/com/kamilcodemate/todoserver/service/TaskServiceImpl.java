@@ -10,33 +10,63 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Service class for Task (implements {@link TaskService})
+ */
 @Service
 
 public class TaskServiceImpl implements TaskService {
 
-  @Autowired
-    TaskRepository taskRepository;
+    /**
+     * Task Repository class
+     */
+  final
+  TaskRepository taskRepository;
 
-  Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
+
+    /** IOC contructor
+     * @param taskRepository TaskRepository to initialize
+     */
+    public TaskServiceImpl(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
+
+    /**
+     * @param task {@link Task} Object to save
+     * @return Saved Task
+     */
     public Task saveTask(Task task)
     {
         return taskRepository.save(task);
     }
 
+    /**
+     * @param date     Day which tasks must be from
+     * @param username Username of the user to whom the tasks belong
+     * @return List of tasks
+     */
   @Override
   public List<Task> getTaskByDate(LocalDate date, String username){
-      List<Task> tasks = taskRepository.findAll();
 
 
-    return taskRepository.getTaskByDateAndUserUsername(date, username);
+      return taskRepository.getTaskByDateAndUserUsername(date, username);
   }
 
+    /**
+     * @param isImportant Importance state
+     * @param id          Task id
+     * @return Integer of an updated Task id
+     */
     @Override
     public Integer updateIsImportantTaskAttributeById(boolean isImportant, Long id) {
         return taskRepository.updateIsImportantTaskAttributeById(isImportant, id);
 
     }
 
+    /** Getting all tasks for username
+     * @param username Username of the user to whom the tasks belong
+     * @return List of tasks
+     */
     @Override
     public List<Task> getAllUserTasks(String username) {
 

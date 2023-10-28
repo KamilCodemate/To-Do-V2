@@ -21,24 +21,44 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-
+/**
+ * A set of controllers to operate the user panel
+ */
 @RestController
 public class UserPanelController {
 
 
+    /**
+     * Token helper class
+     */
+
     @Autowired
     CheckJwtToken checkJwtToken;
 
+    /**
+     * Service class for Task
+     */
     @Autowired
     TaskServiceImpl taskService;
 
+    /**
+     * Service class for user
+     */
     @Autowired
     UserServiceImpl userService;
 
+    /**
+     * Header field name for Bearer Token
+     */
     private static final String TOKEN_HEADER = "Authorization";
 
 
-
+    /** Getting all tasks from particular day
+     * @param requestData Data from JSON API
+     * @param token Barer token from Authorization Header
+     * @return ResponseEntity containing HTTPStatus and list of tasks if successful
+     * @throws InvalidTokenException Throws if token is invalid
+     */
     @PostMapping("/api/user-panel/get-tasks-from-current-date")
     public ResponseEntity<List<Task>> getTasksFromCurrentDate(@RequestBody GetAllTasksByDateAPIModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
         String clearedToken = token.replace("Bearer", "");
@@ -54,6 +74,12 @@ public class UserPanelController {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    /** Updating existing task
+     * @param requestData Data from JSON API
+     * @param token Bearer token from Authorization Header
+     * @return ResponseEntity containing HTTPStatus and optional message
+     * @throws InvalidTokenException Throws if token is invalid
+     */
     @PutMapping("/api/user-panel/get-tasks-from-current-date")
     public ResponseEntity<String> updateTasks(@RequestBody UpdateTaskModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
         String clearedToken = token.replace("Bearer", "");
@@ -71,6 +97,13 @@ public class UserPanelController {
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
+    /** Adding new task by username
+     * @param requestData Data from JSON API
+     * @param token Bearer token from Authorization Header
+     * @return ResponseEntity containing HTTPStatus and optional message
+     * @throws InvalidTokenException Throws if token is invalid
+     */
     @PostMapping("/api/userpanel/addtask")
     public ResponseEntity<?> addTask(@RequestBody AddTaskRequestModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
 
@@ -103,6 +136,13 @@ public class UserPanelController {
 
     }
 
+    /** Getting all tasks by username
+     * @param data Data from JSON API
+     * @param token Bearer token from Authorization Header
+     * @return ResponseEntity containing HTTPStatus and optional message and list of tasks if successful
+     * @throws InvalidTokenException Throws if token is invalid
+     * @throws JSONException Throws if JSON API data is invalid
+     */
     @PostMapping("/api/userpanel/getalltasks")
     public ResponseEntity<List<Task>> getAllTasks(@RequestBody String data, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException, JSONException {
         String clearedToken = token.replace("Bearer", "");

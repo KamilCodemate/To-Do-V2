@@ -2,7 +2,7 @@ package com.kamilcodemate.todoserver.service;
 
 
 import com.kamilcodemate.todoserver.entity.User;
-import com.kamilcodemate.todoserver.exception.InvalidPasswordConfirmationExcpetion;
+import com.kamilcodemate.todoserver.exception.InvalidPasswordConfirmationException;
 import com.kamilcodemate.todoserver.model.ResponseWithTokenModel;
 import com.kamilcodemate.todoserver.model.UserModel;
 import com.kamilcodemate.todoserver.repository.UserRepository;
@@ -13,29 +13,47 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * User Service class (implements {@link UserService}
+ */
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService{
 
-    Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
+    /**
+     * PasswordEncoder Bean
+     */
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    /**
+     * User Repository Bean
+     */
     @Autowired
     UserRepository userRepository;
 
 
-    private final TokenService tokenService;
+    /**
+     * TokenServiceMethods Bean
+     */
+    private final TokenServiceMethods tokenServiceMethods;
 
-    public UserServiceImpl(TokenService tokenService) {
-        this.tokenService = tokenService;
+    /** IOC constructor
+     * @param tokenServiceMethods Bean to initialize
+     */
+    public UserServiceImpl(TokenServiceMethods tokenServiceMethods) {
+        this.tokenServiceMethods = tokenServiceMethods;
     }
 
-    public ResponseWithTokenModel registerUser(UserModel userModel) throws InvalidPasswordConfirmationExcpetion {
-        logger.info("Password="+ userModel.getPassword());
-        logger.info("ConfirmPassword="+ userModel.getConfirmPassword());
-        if(!(userModel.getPassword().equals(userModel.getConfirmPassword()))) throw new InvalidPasswordConfirmationExcpetion("Passwords are diffrent");
+    /**
+     * @param userModel User Model to register User
+     * @return {@link org.springframework.http.ResponseEntity} generic parameter value (registered user)
+     * @throws InvalidPasswordConfirmationException Throws when passwords are not the same
+     */
+    public ResponseWithTokenModel registerUser(UserModel userModel) throws InvalidPasswordConfirmationException {
+
+        if(!(userModel.getPassword().equals(userModel.getConfirmPassword()))) throw new InvalidPasswordConfirmationException("Passwords are different");
 
 
 
@@ -47,7 +65,7 @@ public class UserServiceImpl implements UserService{
         user.setRole(userModel.getRole());
         String token;
 
-             token = tokenService.generateToken(user);
+             token = tokenServiceMethods.generateToken(user);
 
             userRepository.save(user);
 
@@ -56,6 +74,10 @@ public class UserServiceImpl implements UserService{
 
     }
 
+    /** Fining User by username
+     * @param username Username of the user to find
+     * @return Found User
+     */
     @Override
     public User findUserByUsername(String username) {
         return userRepository.getUserByUsername(username);

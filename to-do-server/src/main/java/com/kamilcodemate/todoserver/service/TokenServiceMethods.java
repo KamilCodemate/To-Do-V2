@@ -2,12 +2,7 @@ package com.kamilcodemate.todoserver.service;
 
 
 import com.kamilcodemate.todoserver.entity.User;
-import com.kamilcodemate.todoserver.model.UserModel;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
@@ -15,17 +10,30 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Token helper methods
+ */
 @Service
-public class TokenService {
+public class TokenServiceMethods {
 
+
+    /**
+     * JWT encoder bean
+     */
     private final JwtEncoder jwtEncoder;
 
-    public TokenService(JwtEncoder jwtEncoder) {
+    /** IOC constructor
+     * @param jwtEncoder Bean to initalize
+     */
+    public TokenServiceMethods(JwtEncoder jwtEncoder) {
         this.jwtEncoder = jwtEncoder;
     }
 
 
-
+    /** Bearer Token generator
+     * @param user User corresponding to generated Bearer Token
+     * @return Generated Token
+     */
    public String generateToken(User user)
    {
        Instant now = Instant.now();

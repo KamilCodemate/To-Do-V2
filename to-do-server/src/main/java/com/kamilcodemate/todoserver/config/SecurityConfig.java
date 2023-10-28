@@ -20,21 +20,34 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Security Configuration
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
 
+    /**
+     * Rsa Keypair Bean
+     */
     private final RsaKeyProperties rsaKeys;
 
 
+    /** IOC contructor
+     * @param rsaKeys kaypair
+     */
     public SecurityConfig(RsaKeyProperties rsaKeys) {
         this.rsaKeys = rsaKeys;
     }
 
+    /** Security Filter Chain
+     * @param httpSecurity HTTPSecurity parameter
+     * @return httpSecutiry configuration
+     * @throws Exception Throws Spring internal exceptions
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity
@@ -48,16 +61,26 @@ public class SecurityConfig {
     }
 
 
+    /**  Bcrypt configuration
+     * @return Bcrypt configuration
+     */
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
+
+    /**NimbusJWTDecoder configuration
+     * @return NimbusJWTDecoder configuration
+     */
     @Bean
     JwtDecoder jwtDecoder()
     {
         return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
     }
 
+    /** NimbusJWTEncoder configuration
+     * @return NimbusJWTEncoder configuration
+     */
     @Bean
     JwtEncoder jwtEncoder()
     {
