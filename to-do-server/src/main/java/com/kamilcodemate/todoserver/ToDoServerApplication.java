@@ -12,10 +12,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties(RsaKeyProperties.class)
 public class ToDoServerApplication {
 
-    /**
-     * Hidden class constructor
-     */
-    private ToDoServerApplication() {;}
+
 
     /**
      * Main method to start the application.
