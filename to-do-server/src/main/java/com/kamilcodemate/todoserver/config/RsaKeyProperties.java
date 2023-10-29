@@ -1,9 +1,7 @@
 package com.kamilcodemate.todoserver.config;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
@@ -15,11 +13,11 @@ import java.security.interfaces.RSAPublicKey;
 @ConfigurationProperties(prefix = "rsa")
 public class RsaKeyProperties {
     /**
-     * public RSA Key
+     * public RSA Key.
      */
     private RSAPublicKey publicKey;
     /**
-     * private RSA key
+     * private RSA key.
      */
     private RSAPrivateKey privateKey;
 

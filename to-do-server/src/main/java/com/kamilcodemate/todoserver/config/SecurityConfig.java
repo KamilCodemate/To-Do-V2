@@ -1,6 +1,5 @@
 package com.kamilcodemate.todoserver.config;
 
-
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -10,12 +9,9 @@ import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.
-        HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.
-        EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.
-        AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +29,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     /**
-     * RSA keypair
+     * RSA keypair.
      */
     private final RsaKeyProperties rsaKeys;
 
@@ -54,16 +50,12 @@ public class SecurityConfig {
      * @throws Exception Throws Spring internal exceptions
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity
-                                                               httpSecurity)
-            throws Exception {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.
-                        withDefaults()))
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .sessionManagement(session -> session.sessionCreationPolicy
-                        (SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
 
@@ -94,10 +86,9 @@ public class SecurityConfig {
      */
     @Bean
     public JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(rsaKeys.getPublicKey()).privateKey(rsaKeys
-                .getPrivateKey()).build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>
-                (new JWKSet(jwk));
+        JWK jwk = new RSAKey.Builder(rsaKeys.getPublicKey())
+                .privateKey(rsaKeys.getPrivateKey()).build();
+        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
 }
