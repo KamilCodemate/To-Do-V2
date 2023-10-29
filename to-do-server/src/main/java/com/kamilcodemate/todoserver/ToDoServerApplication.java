@@ -1,6 +1,7 @@
 package com.kamilcodemate.todoserver;
 
 import com.kamilcodemate.todoserver.config.RsaKeyProperties;
+import lombok.Data;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -10,13 +11,18 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  */
 @SpringBootApplication
 @EnableConfigurationProperties(RsaKeyProperties.class)
+
 public class ToDoServerApplication {
 
-	/**
-	 * Main method to start the application.
-	 * @param args default arguments
-	 */
-	public static void main(final String[] args) {
-		SpringApplication.run(ToDoServerApplication.class, args);
-	}
+    public ToDoServerApplication() {
+    }
+
+    /**
+     * Main method to start the application.
+     *
+     * @param args default arguments
+     */
+    public static void main(final String[] args) {
+        SpringApplication.run(ToDoServerApplication.class, args);
+    }
 }

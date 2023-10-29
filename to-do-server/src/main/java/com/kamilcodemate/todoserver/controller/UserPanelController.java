@@ -60,7 +60,8 @@ public class UserPanelController {
      * @throws InvalidTokenException Throws if token is invalid
      */
     @PostMapping("/api/user-panel/get-tasks-from-current-date")
-    public ResponseEntity<List<Task>> getTasksFromCurrentDate(@RequestBody GetAllTasksByDateAPIModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
+    public ResponseEntity<List<Task>> getTasksFromCurrentDate
+    (@RequestBody GetAllTasksByDateAPIModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
         String clearedToken = token.replace("Bearer", "");
        Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, requestData.getUsername());
         String role = tokenClaims.get("role").toString();
@@ -86,13 +87,16 @@ public class UserPanelController {
 
 
 
-        Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, requestData.getUsername());
+        Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, requestData.
+                getUsername());
         String role = tokenClaims.get("role").toString();
         if(role.equals("USER"))
         {
-            Integer retTask = taskService.updateIsImportantTaskAttributeById(requestData.isImportant(), requestData.getTaskId());
+            Integer retTask = taskService.updateIsImportantTaskAttributeById
+                    (requestData.isImportant(), requestData.getTaskId());
 
-            if(retTask == null) return new ResponseEntity<>("Task on given id does not exist", HttpStatus.NOT_FOUND);
+            if(retTask == null) return new ResponseEntity<>("Task on " +
+                    "given id does not exist", HttpStatus.NOT_FOUND);
             return new ResponseEntity<>("Task updated.", HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

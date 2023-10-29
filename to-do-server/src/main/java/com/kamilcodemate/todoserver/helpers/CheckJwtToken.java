@@ -39,7 +39,8 @@ public class CheckJwtToken {
      */
     public Claims checkJwt(String token, String username) throws InvalidTokenException {
 
-            Claims claims = Jwts.parser().setSigningKey(keyPair.publicKey()).parseClaimsJws(token).getBody();
+            Claims claims = Jwts.parser().setSigningKey(keyPair
+                    .getPublicKey()).parseClaimsJws(token).getBody();
             System.out.println(username + " " + claims.getSubject());
             if(!(claims.getSubject().equals(username))) {
              throw new InvalidTokenException("Invalid token");
