@@ -44,9 +44,10 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, 
   const updateTasksInDb = async (taskToUpdate: Task) => {
     const requestData: UpdateTasks = {
       username: username,
-      token: accessToken,
+
       important: taskToUpdate.important,
       taskId: taskToUpdate.id,
+      //TODO: Fix passing token
     };
     console.log(requestData);
     try {

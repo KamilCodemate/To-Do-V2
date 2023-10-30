@@ -2,31 +2,38 @@
 
 .my-tasks-container {
   width: 100%;
-  height: 500px;
+  height: 100%;
   border: 2px solid rgb(50, 50, 50);
   border-radius: 20px;
   margin: 3% 0 3% 3%;
   padding: 20px;
-
   overflow-y: auto;
 
+  .my-tasks-subcontainer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 10px;
+  }
   header {
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    font-size: 20px;
+    font-size: 25px;
     margin-bottom: 20px;
     color: rgb(68, 68, 68);
+    text-decoration: underline;
   }
 
   .task {
-    height: 200px;
-    width: 40%;
+    padding-top: 10px;
+    min-height: 200px;
+    width: 100%;
     margin-top: 5px;
     margin-bottom: 5px;
     border-radius: 10px;
     border: 2px solid rgb(255, 255, 255);
-
+    position: relative;
     background: hsla(263, 42%, 65%, 1);
 
     background: linear-gradient(45deg, hsla(263, 42%, 65%, 1) 0%, hsla(319, 77%, 86%, 1) 100%);
@@ -34,6 +41,22 @@
     background: -moz-linear-gradient(45deg, hsla(263, 42%, 65%, 1) 0%, hsla(319, 77%, 86%, 1) 100%);
 
     background: -webkit-linear-gradient(45deg, hsla(263, 42%, 65%, 1) 0%, hsla(319, 77%, 86%, 1) 100%);
+    .icons {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      display: flex;
+      gap: 3px;
+
+      .checkmark:hover {
+        cursor: pointer;
+        color: green;
+      }
+      .importance-star:hover {
+        cursor: pointer;
+        color: yellow;
+      }
+    }
   }
 
   .main-col {
@@ -44,7 +67,7 @@
 
     flex-direction: column;
 
-    justify-content: flex-start;
+    justify-content: space-between;
 
     div {
       width: 100%;
@@ -90,4 +113,30 @@
   background-color: rgb(102, 102, 255);
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
+}
+
+.subtasks {
+  ul {
+    list-style-type: none;
+    padding-left: 20px;
+    width: 100%;
+    display: flex;
+    font-size: 13px;
+    margin-top: 10px;
+    font-size: $poppinsFont;
+    color: rgb(80, 80, 80);
+    font-style: italic;
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+
+      svg:hover {
+        cursor: pointer;
+        color: green;
+      }
+    }
+  }
 }

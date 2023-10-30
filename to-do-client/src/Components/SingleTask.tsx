@@ -1,29 +1,60 @@
 import React, { useState } from 'react';
 import { AiFillCalendar } from 'react-icons/ai';
 import { HiOutlinePencilSquare } from 'react-icons/hi2';
-import { FaTasks, FaGreaterThan } from 'react-icons/fa';
-import Task from '../Types/TaskInterface';
+import { FaTasks } from 'react-icons/fa';
+import { IoIosCheckmarkCircleOutline } from 'react-icons/io';
+import { IoCheckmarkCircleSharp } from 'react-icons/io5';
+import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
+import axios from 'axios';
+import UpdateTasks from '../Types/UpdateTasks';
+
+const requestURL = '/api/user-panel/updatetaskimportance';
 type Props = {
-  name: String;
-  description?: String;
+  id: number;
+  name: string;
+  description?: string;
   important: boolean;
   done: boolean;
   date: Date;
-  time?: String;
+  time?: string;
   subtasks: Array<{
-    name: String;
+    name: string;
     isDone: boolean;
   }>;
+  username: string;
+  token: string;
 };
 
-const SingleTask: React.FC<Props> = ({ name, description, important, done, subtasks, date, time }): React.ReactElement => {
+const SingleTask: React.FC<Props> = ({ id, name, description, important, done, subtasks, date, time, username, token }): React.ReactElement => {
   const [showSubtasks, setShowSubtasks] = useState<boolean>(false);
-
+  const [taskImportance, setTaskImportance] = useState<boolean>(important);
+  const [taskDone, setTaskDone] = useState<boolean>(done);
   const retDoneCount = (subtasksCopy: Array<{ name: String; isDone: boolean }>) => {
     return subtasksCopy.reduce(function (count, element) {
       if (element.isDone) return ++count;
       else return count;
     }, 0);
+  };
+
+  const updateImportance = async () => {
+    const requestData: UpdateTasks = {
+      username: username,
+      important: !important,
+      taskId: id,
+    };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await axios.put(requestURL, requestData, config);
+      console.log(response);
+
+      setTaskImportance(!taskImportance);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className='task'>
@@ -60,12 +91,25 @@ const SingleTask: React.FC<Props> = ({ name, description, important, done, subta
               {subtasks.map((element, index) => {
                 return (
                   <li key={`subtaskNO${index}`} style={{ textDecorationLine: element.isDone ? 'line-through' : 'none' }}>
-                    {element.name}
+                    {`${index + 1}. ${element.name}`}
+                    <IoIosCheckmarkCircleOutline size={20} />
                   </li>
                 );
               })}
             </ul>
           </div>
+        )}
+      </div>
+      <div className='icons'>
+        {taskDone ? (
+          <IoCheckmarkCircleSharp size={25} className='checkmark filled' onClick={() => updateImportance} />
+        ) : (
+          <IoIosCheckmarkCircleOutline size={25} className='checkmark not-filled' />
+        )}
+        {taskImportance ? (
+          <AiFillStar size={25} className='importance-star filled' onClick={() => updateImportance()} color={'yellow'} />
+        ) : (
+          <AiOutlineStar size={25} className='importance-star not-filled' onClick={() => updateImportance()} />
         )}
       </div>
     </div>

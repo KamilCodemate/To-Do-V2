@@ -37,18 +37,23 @@ const MyTasks: React.FC<Props> = ({ username, token }): React.ReactElement => {
   return (
     <div className='my-tasks-container'>
       <header>My tasks</header>
-      {tasks &&
-        tasks.map((element) => (
-          <SingleTask
-            name={element.name}
-            description={element.description}
-            important={element.important}
-            done={element.isDone}
-            subtasks={element.subtasks}
-            date={element.date}
-            time={element.time}
-          />
-        ))}
+      <div className='my-tasks-subcontainer'>
+        {tasks &&
+          tasks.map((element) => (
+            <SingleTask
+              id={element.id}
+              name={element.name}
+              description={element.description}
+              important={element.important}
+              done={element.isDone}
+              subtasks={element.subtasks}
+              date={element.date}
+              time={element.time}
+              username={username}
+              token={token}
+            />
+          ))}
+      </div>
     </div>
   );
 };

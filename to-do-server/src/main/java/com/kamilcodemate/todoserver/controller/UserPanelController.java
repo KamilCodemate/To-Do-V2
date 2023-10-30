@@ -89,7 +89,7 @@ public class UserPanelController {
      * @return ResponseEntity containing HTTPStatus and optional message
      * @throws InvalidTokenException Throws if token is invalid
      */
-    @PutMapping("/api/user-panel/get-tasks-from-current-date")
+    @PutMapping("/api/user-panel/updatetaskimportance")
     public ResponseEntity<String> updateTasks(@RequestBody UpdateTaskModel requestData,
      @RequestHeader(name = TOKEN_HEADER) String token)
             throws InvalidTokenException {
