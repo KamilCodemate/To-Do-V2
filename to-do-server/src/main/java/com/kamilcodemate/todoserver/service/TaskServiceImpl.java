@@ -1,10 +1,16 @@
 package com.kamilcodemate.todoserver.service;
 
 import com.kamilcodemate.todoserver.entity.Task;
+import com.kamilcodemate.todoserver.entity.User;
+import com.kamilcodemate.todoserver.exception.InvalidTokenException;
+import com.kamilcodemate.todoserver.helpers.CheckJwtToken;
+import com.kamilcodemate.todoserver.model.TaskModels.AddTaskRequestModel;
 import com.kamilcodemate.todoserver.repository.TaskRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,13 +24,19 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
 
     /**
+     * Bearer token helper methods
+     */
+    @Autowired
+    CheckJwtToken checkJwtToken;
+
+    /**
      * Task Repository class
      */
-  final
-  TaskRepository taskRepository;
+    @Autowired
+    final TaskRepository taskRepository;
 
 
-    /** IOC contructor
+    /** IOC constructor
      * @param taskRepository TaskRepository to initialize
      */
     public TaskServiceImpl(TaskRepository taskRepository) {
@@ -32,34 +44,74 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * @param task {@link Task} Object to save
+     * @param taskModel {@link AddTaskRequestModel} Model contains info to
+     * save
+     * @param token Bearer token
+     * @param user User of Task
      * @return Saved Task
      */
-    public Task saveTask(Task task)
-    {
-        return taskRepository.save(task);
+    public Task saveTask(AddTaskRequestModel taskModel, String token, User user) throws InvalidTokenException {
+        String clearedToken = token.replace("Bearer", "");
+        Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, user.getUsername());
+        String role = tokenClaims.get("role").toString();
+
+        if (role.equals("USER")) {
+            Task task = new Task();
+            task.setName(taskModel.getName());
+            task.setDescription(taskModel.getDescription());
+            task.setTime(taskModel.getTime());
+            task.setDone(false);
+            task.setImportant(false);
+            task.setUser(user);
+            task.setSubtasks(taskModel.getSubtasks());
+            return taskRepository.save(task);
+        }
+        throw new InvalidTokenException("Invalid Token");
     }
+
+
 
     /**
      * @param date     Day which tasks must be from
      * @param username Username of the user to whom the tasks belong
+     * @param token
      * @return List of tasks
      */
   @Override
-  public List<Task> getTaskByDate(LocalDate date, String username){
+  public List<Task> getTaskByDate(LocalDate date, String username, String token) throws InvalidTokenException {
+      String clearedToken = token.replace("Bearer", "");
+      Claims tokenClaims = checkJwtToken.checkJwt
+              (clearedToken, username);
+      String role = tokenClaims.get("role").toString();
+
+      if (role.equals("USER")) {
+          return taskRepository.getTaskByDateAndUserUsername(date, username);
 
 
-      return taskRepository.getTaskByDateAndUserUsername(date, username);
+      }
+     return null;
+
+
   }
 
     /**
      * @param isImportant Importance state
      * @param id          Task id
+     * @param username
+     * @param token
      * @return Integer of an updated Task id
      */
     @Override
-    public Integer updateIsImportantTaskAttributeById(boolean isImportant, Long id) {
-        return taskRepository.updateIsImportantTaskAttributeById(isImportant, id);
+    public Integer updateIsImportantTaskAttributeById(boolean isImportant, Long id, String username, String token) throws InvalidTokenException {
+
+        String clearedToken = token.replace("Bearer", "");
+        Claims tokenClaims = checkJwtToken.checkJwt
+                (clearedToken, username);
+        String role = tokenClaims.get("role").toString();
+        if (role.equals("USER")) {
+            return taskRepository.updateIsImportantTaskAttributeById(isImportant, id, username);
+        }
+         return null;
 
     }
 
@@ -68,8 +120,17 @@ public class TaskServiceImpl implements TaskService {
      * @return List of tasks
      */
     @Override
-    public List<Task> getAllUserTasks(String username) {
+    public List<Task> getAllUserTasks(String username, String token) throws InvalidTokenException {
+        String clearedToken = token.replace("Bearer", "");
 
-        return taskRepository.getTasksByUserUsername(username);
+        Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, username);
+        final String ROLE = tokenClaims.get("role").toString();
+
+
+        if (ROLE.equals("USER")) {
+            return taskRepository.getTasksByUserUsername(username);
+        }
+        throw new InvalidTokenException("Invalid token");
+
     }
 }

@@ -3,12 +3,14 @@ package com.kamilcodemate.todoserver.service;
 
 import com.kamilcodemate.todoserver.entity.User;
 import com.kamilcodemate.todoserver.exception.InvalidPasswordConfirmationException;
+import com.kamilcodemate.todoserver.exception.InvalidTokenException;
+import com.kamilcodemate.todoserver.helpers.CheckJwtToken;
 import com.kamilcodemate.todoserver.model.ResponseWithTokenModel;
 import com.kamilcodemate.todoserver.model.UserModel;
 import com.kamilcodemate.todoserver.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 
     /**
@@ -33,13 +35,21 @@ public class UserServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Bearer token helper methods
+     */
+    @Autowired
+    CheckJwtToken checkJwtToken;
+
 
     /**
      * TokenServiceMethods Bean
      */
     private final TokenServiceMethods tokenServiceMethods;
 
-    /** IOC constructor
+    /**
+     * IOC constructor
+     *
      * @param tokenServiceMethods Bean to initialize
      */
     public UserServiceImpl(TokenServiceMethods tokenServiceMethods) {
@@ -53,8 +63,8 @@ public class UserServiceImpl implements UserService{
      */
     public ResponseWithTokenModel registerUser(UserModel userModel) throws InvalidPasswordConfirmationException {
 
-        if(!(userModel.getPassword().equals(userModel.getConfirmPassword()))) throw new InvalidPasswordConfirmationException("Passwords are different");
-
+        if (!(userModel.getPassword().equals(userModel.getConfirmPassword())))
+            throw new InvalidPasswordConfirmationException("Passwords are different");
 
 
         User user = new User();
@@ -65,21 +75,36 @@ public class UserServiceImpl implements UserService{
         user.setRole(userModel.getRole());
         String token;
 
-             token = tokenServiceMethods.generateToken(user);
+        token = tokenServiceMethods.generateToken(user);
 
-            userRepository.save(user);
+        userRepository.save(user);
 
 
         return new ResponseWithTokenModel("User registered", token);
 
     }
 
-    /** Fining User by username
+    /**
+     * Fining User by username
+     *
      * @param username Username of the user to find
+     * @param token
      * @return Found User
+     * @throws InvalidTokenException If token is invalid
      */
     @Override
-    public User findUserByUsername(String username) {
-        return userRepository.getUserByUsername(username);
+    public User findUserByUsername(String username, String token) throws InvalidTokenException {
+
+        String clearedToken = token.replace("Bearer", "");
+        Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, username);
+        String role = tokenClaims.get("role").toString();
+        User user = userRepository.getUserByUsername(username);
+        if (role.equals("USER")) {
+            if (user == null)
+                throw new EntityNotFoundException("No user found");
+            return user;
+
+        }
+        throw new InvalidTokenException("Invalid token.");
     }
 }

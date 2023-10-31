@@ -36,6 +36,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
      */
     @Modifying
     @Transactional
-    @Query("UPDATE Task t SET t.isImportant = :isImportant WHERE t.id = :id")
-     Integer updateIsImportantTaskAttributeById(boolean isImportant, Long id);
+    @Query("UPDATE Task t SET t.isImportant = :isImportant WHERE t.id = :id " +
+            "AND t.user.username = :username")
+     Integer updateIsImportantTaskAttributeById(boolean isImportant, Long id
+            , String username);
 }

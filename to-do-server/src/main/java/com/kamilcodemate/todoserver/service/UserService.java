@@ -2,6 +2,7 @@ package com.kamilcodemate.todoserver.service;
 
 import com.kamilcodemate.todoserver.entity.User;
 import com.kamilcodemate.todoserver.exception.InvalidPasswordConfirmationException;
+import com.kamilcodemate.todoserver.exception.InvalidTokenException;
 import com.kamilcodemate.todoserver.model.ResponseWithTokenModel;
 import com.kamilcodemate.todoserver.model.UserModel;
 
@@ -16,9 +17,12 @@ public interface UserService {
       */
      ResponseWithTokenModel registerUser(UserModel userModel) throws InvalidPasswordConfirmationException;
 
-     /** Getting User by username
+     /**
+      * Getting User by username
+      *
       * @param username User username
+      * @param token
       * @return Found User
       */
-     User findUserByUsername(String username);
+     User findUserByUsername(String username, String token) throws InvalidTokenException;
 }

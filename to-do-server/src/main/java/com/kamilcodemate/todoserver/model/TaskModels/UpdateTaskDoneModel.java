@@ -5,27 +5,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Request model for adding new task
+ * Request model for update task execution state
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateTaskModel {
+public class UpdateTaskDoneModel {
 
     /**
-     * User username
+     * Name of the user to whom the task belongs
      */
     private String username;
-
-
     /**
-     * Importance state
+     * Determine whether the task is complete
      */
-    private boolean isImportant;
-
-
+    private boolean done;
     /**
-     * Id of a task to update
+     * Id of task to update
      */
     private Long taskId;
 }
