@@ -29,15 +29,29 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
      */
      List<Task> getTasksByUserUsername(String username);
 
-    /** Updating task importance
+    /** Updating Task importance
      * @param isImportant Task importance state
-     * @param id Id of task to update
-     * @return Integer of an task id
+     * @param id Id of Task to update
+     * @return Integer of updated Task
      */
     @Modifying
     @Transactional
     @Query("UPDATE Task t SET t.isImportant = :isImportant WHERE t.id = :id " +
             "AND t.user.username = :username")
-     Integer updateIsImportantTaskAttributeById(boolean isImportant, Long id
+     Integer updateTaskImportance(boolean isImportant, Long id
             , String username);
+
+    /**
+     * Updating Task completion state
+     * @param isDone Task completion state
+     * @param id Id of Task to update
+     * @param username Username of the user who owns the Task
+     * @return Integer of updated Task
+     */
+    @Modifying
+    @Transactional
+    @Query("UPDATE Task t SET t.isDone = :isDone WHERE t.id = :id " +
+            "AND t.user.username = :username")
+   Integer updateTaskCompletion(boolean isDone, Long id, String username);
+
 }

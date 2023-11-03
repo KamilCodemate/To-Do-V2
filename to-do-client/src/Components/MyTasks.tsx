@@ -45,7 +45,7 @@ const MyTasks: React.FC<Props> = ({ username, token }): React.ReactElement => {
               name={element.name}
               description={element.description}
               important={element.important}
-              done={element.isDone}
+              done={element.done}
               subtasks={element.subtasks}
               date={element.date}
               time={element.time}

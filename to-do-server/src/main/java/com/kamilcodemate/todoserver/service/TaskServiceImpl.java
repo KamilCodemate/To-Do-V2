@@ -8,9 +8,6 @@ import com.kamilcodemate.todoserver.model.TaskModels.AddTaskRequestModel;
 import com.kamilcodemate.todoserver.repository.TaskRepository;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -74,7 +71,7 @@ public class TaskServiceImpl implements TaskService {
     /**
      * @param date     Day which tasks must be from
      * @param username Username of the user to whom the tasks belong
-     * @param token
+     * @param token Bearer Token
      * @return List of tasks
      */
   @Override
@@ -89,7 +86,7 @@ public class TaskServiceImpl implements TaskService {
 
 
       }
-     return null;
+      throw new InvalidTokenException("Invalid permission role");
 
 
   }
@@ -97,8 +94,8 @@ public class TaskServiceImpl implements TaskService {
     /**
      * @param isImportant Importance state
      * @param id          Task id
-     * @param username
-     * @param token
+     * @param username  Username of the user to whom the tasks belong
+     * @param token Bearer Token
      * @return Integer of an updated Task id
      */
     @Override
@@ -109,9 +106,9 @@ public class TaskServiceImpl implements TaskService {
                 (clearedToken, username);
         String role = tokenClaims.get("role").toString();
         if (role.equals("USER")) {
-            return taskRepository.updateIsImportantTaskAttributeById(isImportant, id, username);
+            return taskRepository.updateTaskImportance(isImportant, id, username);
         }
-         return null;
+        throw new InvalidTokenException("Invalid permission role");
 
     }
 
@@ -130,7 +127,21 @@ public class TaskServiceImpl implements TaskService {
         if (ROLE.equals("USER")) {
             return taskRepository.getTasksByUserUsername(username);
         }
-        throw new InvalidTokenException("Invalid token");
+        throw new InvalidTokenException("Invalid permission role");
 
+    }
+
+    @Override
+    public Integer updateTaskCompletion(boolean isDone, Long id, String username, String token) throws InvalidTokenException {
+        System.out.println(isDone + ", " + id + " " + username);
+        String clearedToken = token.replace("Bearer", "");
+        Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, username);
+        final String ROLE = tokenClaims.get("role").toString();
+
+
+        if (ROLE.equals("USER")) {
+            return taskRepository.updateTaskCompletion(isDone, id, username);
+        }
+        throw new InvalidTokenException("Invalid permission role");
     }
 }

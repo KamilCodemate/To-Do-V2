@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateTaskDoneModel {
+public class UpdateTaskCompletionModel {
 
     /**
      * Name of the user to whom the task belongs
@@ -19,7 +19,7 @@ public class UpdateTaskDoneModel {
     /**
      * Determine whether the task is complete
      */
-    private boolean done;
+    private boolean isDone;
     /**
      * Id of task to update
      */

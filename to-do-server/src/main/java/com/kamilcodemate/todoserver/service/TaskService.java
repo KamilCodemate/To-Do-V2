@@ -46,4 +46,7 @@ public interface TaskService {
      * @return List of User tasks
      */
      List<Task> getAllUserTasks(String username, String token) throws InvalidTokenException;
+
+     Integer updateTaskCompletion(boolean isDone, Long id, String username, String token) throws InvalidTokenException;
+
 }

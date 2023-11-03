@@ -5,10 +5,10 @@ import com.kamilcodemate.todoserver.entity.User;
 import com.kamilcodemate.todoserver.exception.InvalidTokenException;
 import com.kamilcodemate.todoserver.model.TaskModels.AddTaskRequestModel;
 import com.kamilcodemate.todoserver.model.TaskModels.GetAllTasksByDateAPIModel;
+import com.kamilcodemate.todoserver.model.TaskModels.UpdateTaskCompletionModel;
 import com.kamilcodemate.todoserver.model.TaskModels.UpdateTaskImportanceModel;
 import com.kamilcodemate.todoserver.service.TaskServiceImpl;
 import com.kamilcodemate.todoserver.service.UserServiceImpl;
-import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -75,12 +75,22 @@ public class UserPanelController {
      * @throws InvalidTokenException Throws if token is invalid
      */
     @PutMapping("/api/user-panel/updatetaskimportance")
-    public ResponseEntity<String> updateTasks(@RequestBody UpdateTaskImportanceModel requestData,
-     @RequestHeader(name = TOKEN_HEADER) String token)
+    public ResponseEntity<String> updateTaskImportance(@RequestBody UpdateTaskImportanceModel requestData,
+                                                       @RequestHeader(name = TOKEN_HEADER) String token)
             throws InvalidTokenException {
             Integer retTask = taskService.updateIsImportantTaskAttributeById
                     (requestData.isImportant(), requestData.getTaskId(),
                             requestData.getUsername(), token );
+            if (retTask != null ) return new ResponseEntity<>("Task updated.", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        @PutMapping("/api/user-panel/updatetaskcompletion")
+        public ResponseEntity<String> updateTaskCompletion(@RequestBody UpdateTaskCompletionModel requestData, @RequestHeader(name=TOKEN_HEADER) String token) throws InvalidTokenException
+        {
+            System.out.println("RequestData = " + requestData);
+            Integer retTask = taskService.updateTaskCompletion(requestData.isDone(), requestData.getTaskId(), requestData.getUsername(), token
+            );
             if (retTask != null ) return new ResponseEntity<>("Task updated.", HttpStatus.OK);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -136,6 +146,8 @@ public class UserPanelController {
 
 
     }
+
+
 
 
 }

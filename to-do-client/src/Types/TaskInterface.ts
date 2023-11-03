@@ -8,6 +8,6 @@ export default interface Task {
     name: string;
     isDone: boolean;
   }>;
-  isDone: boolean;
+  done: boolean;
   important: boolean;
 }

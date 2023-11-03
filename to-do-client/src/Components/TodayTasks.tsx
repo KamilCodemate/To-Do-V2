@@ -7,7 +7,7 @@ import axios from 'axios';
 import Task from '../Types/TaskInterface';
 import './ComponentStyles/TodayTasks.scss';
 import { IoCheckmarkCircle, IoCheckmarkCircleOutline } from 'react-icons/io5';
-import UpdateTasks from '../Types/UpdateTasks';
+import UpdateTasks from '../Types/UpdateTaskImportance';
 type Props = {
   username: string;
   accessToken: string;
@@ -119,7 +119,7 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, 
                   ) : (
                     <AiOutlineStar onClick={() => handleTaskClick(element.id)} />
                   )}
-                  {element.isDone ? <IoCheckmarkCircle /> : <IoCheckmarkCircleOutline />}
+                  {element.done ? <IoCheckmarkCircle /> : <IoCheckmarkCircleOutline />}
                 </div>
               </div>
             );
