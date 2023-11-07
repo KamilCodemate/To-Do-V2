@@ -3,7 +3,8 @@ export default interface Task {
   name: string;
   description?: string;
   date: Date;
-  time?: string;
+  startTime?: string;
+  endTime?: string;
   subtasks: Array<{
     name: string;
     isDone: boolean;

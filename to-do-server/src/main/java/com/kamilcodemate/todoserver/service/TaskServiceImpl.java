@@ -56,7 +56,8 @@ public class TaskServiceImpl implements TaskService {
             Task task = new Task();
             task.setName(taskModel.getName());
             task.setDescription(taskModel.getDescription());
-            task.setTime(taskModel.getTime());
+            task.setStartTime(taskModel.getStartTime());
+            task.setEndTime(taskModel.getEndTime());
             task.setDone(false);
             task.setImportant(false);
             task.setUser(user);

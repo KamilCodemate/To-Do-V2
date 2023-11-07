@@ -17,7 +17,6 @@ type Props = {
 const requestPath: string = '/api/user-panel/get-tasks-from-current-date';
 const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, extended }): React.ReactElement => {
   const [tasks, setTasks] = useState<Array<Task> | null>(null);
-  const [mappedTasks, setMappedTasks] = useState();
 
   const getAllTasksToday = async () => {
     const currentDate = new Date();
@@ -62,7 +61,6 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, 
   const handleTaskClick = (taskId: number): void => {
     if (!tasks) return;
 
-    const tasksCopy = tasks;
     if (!tasks) return;
     const foundTask = tasks?.find((e) => e.id === taskId);
     if (!foundTask || typeof foundTask === 'undefined') return;
@@ -92,10 +90,10 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, 
                     </h3>
                   </div>
                   <div className='second-row'>
-                    <div className='task-date'>
+                    {/* <div className='task-date'>
                       <BsFillCalendarWeekFill /> {'Today'}
                       {element.time ? `, ${element.time.substring(0, 5)}` : null}
-                    </div>
+                    </div> */}
                     {element.subtasks.length > 0 ? (
                       <div className='task-other'>
                         <div className='task-subtask'>

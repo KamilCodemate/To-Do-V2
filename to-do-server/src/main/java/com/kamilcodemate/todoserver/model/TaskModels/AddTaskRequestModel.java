@@ -39,9 +39,15 @@ public class AddTaskRequestModel {
     */
    private LocalDate date;
    /**
-    * Task deadline time
+    * Time when Task is going to start
     */
-   private Time time;
+   private Time startTime;
+
+   /**
+    * Time when Task is going to end
+    */
+   private Time endTime;
+
 
    private String description;
    /**

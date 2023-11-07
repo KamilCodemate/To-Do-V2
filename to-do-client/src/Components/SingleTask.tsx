@@ -18,7 +18,8 @@ type Props = {
   important: boolean;
   done: boolean;
   date: Date;
-  time?: string;
+  startTime?: string;
+  endTime?: string;
   subtasks: Array<{
     name: string;
     isDone: boolean;
@@ -27,7 +28,19 @@ type Props = {
   token: string;
 };
 
-const SingleTask: React.FC<Props> = ({ id, name, description, important, done, subtasks, date, time, username, token }): React.ReactElement => {
+const SingleTask: React.FC<Props> = ({
+  id,
+  name,
+  description,
+  important,
+  done,
+  subtasks,
+  date,
+  startTime,
+  endTime,
+  username,
+  token,
+}): React.ReactElement => {
   const [showSubtasks, setShowSubtasks] = useState<boolean>(false);
   const [taskImportance, setTaskImportance] = useState<boolean>(important);
   const [taskDone, setTaskDone] = useState<boolean>(done);
@@ -37,6 +50,15 @@ const SingleTask: React.FC<Props> = ({ id, name, description, important, done, s
       else return count;
     }, 0);
   };
+
+  let timeDisplay = '';
+  if (startTime && endTime) {
+    timeDisplay = `${startTime} - ${endTime}`;
+  } else if (startTime) {
+    timeDisplay = `Starts at ${startTime}`;
+  } else if (endTime) {
+    timeDisplay = `Ends at ${endTime}`;
+  }
 
   const updateImportance = async () => {
     const requestData: UpdateTaskImportance = {
@@ -86,7 +108,7 @@ const SingleTask: React.FC<Props> = ({ id, name, description, important, done, s
         <div className='date-col'>
           <AiFillCalendar size={20} /> Until:
           {`  ${new Date(date).toLocaleDateString('pl-PL', { year: 'numeric', month: '2-digit', day: '2-digit' })}${
-            time ? `, ${time.substring(0, 5)}` : ''
+            timeDisplay ? `, ${timeDisplay}` : ''
           }`}
         </div>
         <div className='desc-col'>

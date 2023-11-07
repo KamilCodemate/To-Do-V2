@@ -42,9 +42,15 @@ public class Task {
      */
     private LocalDate date;
     /**
-     * Time for task deadline
+     * Time when Task is going to start
      */
-    private Time time;
+    private Time startTime;
+
+    /**
+     * Time when Task is going to end
+     */
+    private Time endTime;
+
     /**
      * Task execution status (false - undone; true - done)
      */
