@@ -3,8 +3,7 @@ import './ComponentStyles/HelloPanel.scss';
 import MyTasks from './MyTasks';
 import axios from 'axios';
 import Task from '../Types/TaskInterface';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
+import CustomCalendar from './Calendar';
 
 type Props = {
   firstName: string;
@@ -16,8 +15,6 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token }): React.Reac
   const [welcomeText, setWelcomeText] = useState<string>('');
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [tasks, setTasks] = useState<Array<Task>>();
-
-  const localizer = momentLocalizer(moment);
 
   const getAllTasks = async () => {
     const requestData = {
@@ -76,19 +73,7 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token }): React.Reac
         <div className='welcome-second'>{`\n${formattedDate}`}</div>
         <MyTasks username={username} token={token} tasks={tasks} />
       </div>
-      <div className='calendar-container'>
-        <header> My Calendar</header>
-        <Calendar
-          localizer={localizer}
-          events={tasks?.map((task) => ({
-            title: task.name,
-            start: task.startTime ? new Date(`${task.date}T${task.startTime}`) : new Date(task.date),
-            end: task.endTime ? new Date(`${task.date}T${task.endTime}`) : new Date(task.date),
-          }))}
-          startAccessor='start'
-          endAccessor='end'
-        />
-      </div>
+      <CustomCalendar tasks={tasks} />
     </div>
   );
 };
