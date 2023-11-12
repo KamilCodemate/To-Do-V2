@@ -4,18 +4,31 @@ import MyTasks from './MyTasks';
 import axios from 'axios';
 import Task from '../Types/TaskInterface';
 import CustomCalendar from './Calendar';
+import { RightPanelMode } from '../Types/RightPanelMode';
+import AddTaskPanel from './AddTaskPanel';
 
 type Props = {
   firstName: string;
   username: string;
   token: string;
+  rightPanelMode: RightPanelMode;
 };
 
-const HelloPanel: React.FC<Props> = ({ firstName, username, token }): React.ReactElement => {
+const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMode }): React.ReactElement => {
   const [welcomeText, setWelcomeText] = useState<string>('');
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [tasks, setTasks] = useState<Array<Task>>();
 
+  const returnRightPanelElement = (modeType: RightPanelMode): React.ReactElement => {
+    switch (modeType) {
+      case RightPanelMode.Calendar:
+        return <CustomCalendar tasks={tasks} />;
+      case RightPanelMode.CreateTask:
+        return <AddTaskPanel username={username} token={token} />;
+      default:
+        return <CustomCalendar tasks={tasks} />;
+    }
+  };
   const getAllTasks = async () => {
     const requestData = {
       username: username,
@@ -29,7 +42,6 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token }): React.Reac
     try {
       const response = await axios.post('/api/userpanel/getalltasks', requestData, config);
       setTasks(response.data);
-      console.log(response);
     } catch (err) {
       console.log(err);
     }
@@ -55,7 +67,6 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token }): React.Reac
         .toString()
         .padStart(2, '0')} ${ampm}`;
 
-      console.log(actualHour);
       if (actualHour >= 5 && actualHour <= 12) setWelcomeText(`Good Morning, ${firstName}`);
       if (actualHour > 12 && actualHour <= 18) setWelcomeText(`Good Evening, ${firstName}`);
       if (actualHour > 18 || actualHour < 5) setWelcomeText(`Good Afternoon, ${firstName}`);
@@ -73,7 +84,7 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token }): React.Reac
         <div className='welcome-second'>{`\n${formattedDate}`}</div>
         <MyTasks username={username} token={token} tasks={tasks} />
       </div>
-      <CustomCalendar tasks={tasks} />
+      {returnRightPanelElement(rightPanelMode)}
     </div>
   );
 };

@@ -18,7 +18,7 @@ interface PanelData {
 const UserPanel: React.FC<{}> = (): React.ReactElement => {
   const navigate = useNavigate();
   const userData: UserData = JSON.parse(localStorage.getItem('userData') as string);
-  const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>(RightPanelMode.None);
+  const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>(RightPanelMode.Calendar);
 
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
@@ -27,21 +27,22 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
   };
 
   const handleAddTask = () => {
-    if (rightPanelMode === RightPanelMode.None || rightPanelMode === RightPanelMode.SeeTaskDetails) setRightPanelMode(RightPanelMode.CreateTask);
-    else setRightPanelMode(RightPanelMode.None);
+    console.log(rightPanelMode);
+    if (rightPanelMode === RightPanelMode.Calendar || rightPanelMode === RightPanelMode.EditTask) setRightPanelMode(RightPanelMode.CreateTask);
+    else setRightPanelMode(RightPanelMode.Calendar);
   };
   return (
     <div className='user-panel-container'>
       <div className='user-panel'>
         <LeftPanel handleAddTask={handleAddTask} username={userData.username} token={userData.accessToken} />
-        <div className='middle-panel'>
+        <div className='right-panel'>
           {/* <TodayTasks
             username={userData.username}
             accessToken={userData.accessToken}
             taskClickHandler={handleTaskSelect}
             extended={rightPanelMode !== RightPanelMode.None}
           /> */}
-          <HelloPanel firstName={userData.firstName} username={userData.username} token={userData.accessToken} />
+          <HelloPanel firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />
         </div>
       </div>
     </div>
