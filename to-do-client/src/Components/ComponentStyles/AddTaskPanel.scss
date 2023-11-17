@@ -1,0 +1,67 @@
+@import '../../sassResources/fonts.scss';
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: $poppinsFont;
+}
+
+.add-task-area-container {
+  width: 100%;
+  height: 100%;
+
+  .add-task-panel,
+  .add-task-form {
+    height: 100%;
+  }
+}
+
+.add-task-section-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  width: 50%;
+  border: 2px solid rgb(99, 99, 99);
+  border-radius: 15px;
+  .label-input-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: bold;
+    padding: 5px;
+    // border-radius: 10px;
+    // border: 2px solid rgb(99, 99, 99);
+    label {
+      display: block;
+      width: 100px;
+    }
+    .add-task-input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid rgb(98, 98, 98);
+
+      background-color: white;
+      border-radius: 10px;
+      padding-left: 10px;
+    }
+    .textarea-desc {
+      width: 100%;
+      height: 70px;
+      border-radius: 10px;
+    }
+    .add-task-datetime {
+      width: 100%;
+      height: 30px;
+      border-radius: 10px;
+      padding: 10px;
+    }
+  }
+}
