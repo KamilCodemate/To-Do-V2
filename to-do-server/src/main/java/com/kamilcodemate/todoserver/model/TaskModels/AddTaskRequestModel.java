@@ -2,6 +2,7 @@ package com.kamilcodemate.todoserver.model.TaskModels;
 
 
 
+
 import com.kamilcodemate.todoserver.entity.Subtask;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -10,8 +11,8 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
+
 
 /**
  * Request model for adding new task
@@ -47,8 +48,10 @@ public class AddTaskRequestModel {
     * Time when Task is going to end
     */
    private Time endTime;
-
-
+   
+   /**
+    * Task description
+    */
    private String description;
    /**
     * List of subtasks
