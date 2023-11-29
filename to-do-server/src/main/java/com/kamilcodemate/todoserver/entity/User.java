@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
@@ -60,6 +61,7 @@ public class User {
      * Corresponding List of {@link Task} for a user
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @ToString.Exclude
     List<Task> tasks;
 
 }

@@ -45,7 +45,7 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, 
       username: username,
 
       important: taskToUpdate.important,
-      taskId: taskToUpdate.id,
+      taskId: taskToUpdate.id || 0,
       //TODO: Fix passing token
     };
     console.log(requestData);
@@ -58,7 +58,7 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, 
     }
   };
 
-  const handleTaskClick = (taskId: number): void => {
+  const handleTaskClick = (taskId: number | undefined): void => {
     if (!tasks) return;
 
     if (!tasks) return;
@@ -113,9 +113,9 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, 
                 </div>
                 <div className='right-col'>
                   {element.important ? (
-                    <AiTwotoneStar onClick={() => handleTaskClick(element.id)} style={{ color: 'yellow' }} />
+                    <AiTwotoneStar onClick={() => handleTaskClick(element.id )} style={{ color: 'yellow' }} />
                   ) : (
-                    <AiOutlineStar onClick={() => handleTaskClick(element.id)} />
+                    <AiOutlineStar onClick={() => handleTaskClick(element.id )} />
                   )}
                   {element.done ? <IoCheckmarkCircle /> : <IoCheckmarkCircleOutline />}
                 </div>

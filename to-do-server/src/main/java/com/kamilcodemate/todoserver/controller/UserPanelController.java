@@ -111,6 +111,7 @@ public class UserPanelController {
             throws InvalidTokenException {
         User user = userService.findUserByUsername(requestData.getUsername()
                 , token);
+
             Task responseTask = taskService.saveTask(requestData, token, user);
             if (responseTask == null)
                 throw new InternalError("An error occurred on our side. " +

@@ -15,7 +15,7 @@ public interface TaskService {
 
 
     /** Save task
-     * @param task {@link Task} Object to save
+     * @param taskModel TaskModel data containing info to save
      * @return Saved Task
      */
  Task saveTask(AddTaskRequestModel taskModel, String token, User user) throws InvalidTokenException;

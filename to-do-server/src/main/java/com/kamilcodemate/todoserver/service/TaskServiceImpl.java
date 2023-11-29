@@ -1,5 +1,6 @@
 package com.kamilcodemate.todoserver.service;
 
+import com.kamilcodemate.todoserver.entity.Subtask;
 import com.kamilcodemate.todoserver.entity.Task;
 import com.kamilcodemate.todoserver.entity.User;
 import com.kamilcodemate.todoserver.exception.InvalidTokenException;
@@ -55,17 +56,27 @@ public class TaskServiceImpl implements TaskService {
         if (role.equals("USER")) {
             Task task = new Task();
             task.setName(taskModel.getName());
+            task.setDate(taskModel.getDate());
             task.setDescription(taskModel.getDescription());
             task.setStartTime(taskModel.getStartTime());
             task.setEndTime(taskModel.getEndTime());
             task.setDone(false);
             task.setImportant(false);
             task.setUser(user);
-            task.setSubtasks(taskModel.getSubtasks());
+
+            List<Subtask> subtasks = taskModel.getSubtasks();
+            for(Subtask subtask : subtasks) {
+                subtask.setTask(task);
+            }
+            task.setSubtasks(subtasks);
+
+            System.out.println(task);
+
             return taskRepository.save(task);
         }
         throw new InvalidTokenException("Invalid Token");
     }
+
 
 
 

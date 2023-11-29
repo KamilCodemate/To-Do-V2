@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -44,5 +45,6 @@ public class Subtask {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "task_id", nullable = false)
+    @ToString.Exclude
     private Task task;
 }

@@ -18,15 +18,15 @@ const MyTasks: React.FC<Props> = ({ username, token, tasks }): React.ReactElemen
         {tasks &&
           tasks.map((element) => (
             <SingleTask
-              id={element.id}
+              id={element.id || 0}
               name={element.name}
               description={element.description}
               important={element.important}
               done={element.done}
               subtasks={element.subtasks}
               date={element.date}
-              startTime={element.startTime}
-              endTime={element.endTime}
+              startTime={element.startTime || undefined}
+              endTime={element.endTime || undefined}
               username={username}
               token={token}
             />
