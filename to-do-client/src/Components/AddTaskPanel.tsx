@@ -8,6 +8,7 @@ import axios from 'axios';
 type Props = {
   username: string;
   token: string;
+  rerenderHelloComponent: any;
 };
 
 const StyledIcon = styled(BsPlusSquareFill)`
@@ -18,13 +19,13 @@ const StyledIcon = styled(BsPlusSquareFill)`
   }
 `;
 
-const AddTaskPanel: React.FC<Props> = ({ username, token }): React.ReactElement => {
+const AddTaskPanel: React.FC<Props> = ({ username, token, rerenderHelloComponent }): React.ReactElement => {
   const [iconColor, setIconColor] = useState('rgb(23,23,23)');
   const [taskData, setTaskData] = useState<Task>({
     name: '',
     description: '',
     date: new Date(),
-    subtasks: [{ name: '', isDone: false }],
+    subtasks: [{ name: '', done: false }],
     done: false,
     important: false,
   });
@@ -56,8 +57,9 @@ const AddTaskPanel: React.FC<Props> = ({ username, token }): React.ReactElement 
     };
     try {
       const response = await axios.post('/api/userpanel/addtask', requestData, config);
-
+      rerenderHelloComponent();
       console.log(response.data);
+
     } catch (error) {
       console.error(error);
     }
@@ -65,14 +67,14 @@ const AddTaskPanel: React.FC<Props> = ({ username, token }): React.ReactElement 
 
   const handleSubtaskChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSubtasks = [...taskData.subtasks];
-    newSubtasks[index] = { name: e.target.value, isDone: false };
+    newSubtasks[index] = { name: e.target.value, done: false };
     setTaskData({ ...taskData, subtasks: newSubtasks });
 
     if (e.target.value === '' && index < newSubtasks.length - 1) {
       newSubtasks.splice(index + 1, 1);
       setTaskData({ ...taskData, subtasks: newSubtasks });
     } else if (index === taskData.subtasks.length - 1 && e.target.value !== '') {
-      setTaskData({ ...taskData, subtasks: [...newSubtasks, { name: '', isDone: false }] });
+      setTaskData({ ...taskData, subtasks: [...newSubtasks, { name: '', done: false }] });
     }
   };
 
@@ -108,7 +110,7 @@ const AddTaskPanel: React.FC<Props> = ({ username, token }): React.ReactElement 
                 <header>Substeps</header>
                 <div className='add-subtask'>
                   {taskData.subtasks.map((subtask, index) => (
-                      <div className='label-input-subtask'>
+                      <div className='label-input-subtask' key={`label-input-subtask-no${index}`}>
                         <label>{`${index + 1}. `}</label>
                         <input className='subtask-form' key={index} type='text' value={subtask.name} onChange={(e) => handleSubtaskChange(e, index)} />
                       </div>

@@ -3,10 +3,8 @@ package com.kamilcodemate.todoserver.controller;
 import com.kamilcodemate.todoserver.entity.Task;
 import com.kamilcodemate.todoserver.entity.User;
 import com.kamilcodemate.todoserver.exception.InvalidTokenException;
-import com.kamilcodemate.todoserver.model.TaskModels.AddTaskRequestModel;
-import com.kamilcodemate.todoserver.model.TaskModels.GetAllTasksByDateAPIModel;
-import com.kamilcodemate.todoserver.model.TaskModels.UpdateTaskCompletionModel;
-import com.kamilcodemate.todoserver.model.TaskModels.UpdateTaskImportanceModel;
+import com.kamilcodemate.todoserver.model.TaskModels.*;
+import com.kamilcodemate.todoserver.service.SubtaskServiceImpl;
 import com.kamilcodemate.todoserver.service.TaskServiceImpl;
 import com.kamilcodemate.todoserver.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
@@ -47,6 +45,9 @@ public class UserPanelController {
      */
     @Autowired
     UserServiceImpl userService;
+
+    @Autowired
+    SubtaskServiceImpl subtaskService;
 
     /**
      * Getting all tasks from particular day.
@@ -146,6 +147,17 @@ public class UserPanelController {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
 
+    }
+
+    @PutMapping("/api/userpanel/updatesubtaskcompletion")
+    public ResponseEntity<String> updateSubtaskCompetion(@RequestBody UpdateSubtaskCompletionModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
+        Integer retTask = subtaskService.updateSubtaskCompletion(requestData.getUsername(), token, requestData.getSubtaskId(), requestData.isDone());
+
+        if(retTask == null)
+            throw new InternalError("An error occurred on our side. " +
+                    "Please try again later");
+
+        return new ResponseEntity<>("Subtask updated.", HttpStatus.OK);
     }
 
 

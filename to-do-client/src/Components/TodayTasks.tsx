@@ -98,7 +98,7 @@ const TodayTasks: React.FC<Props> = ({ username, accessToken, taskClickHandler, 
                       <div className='task-other'>
                         <div className='task-subtask'>
                           {element.subtasks.map((subtask) => {
-                            if (!subtask.isDone)
+                            if (!subtask.done)
                               return (
                                 <div className='subtask'>
                                   <h4>{subtask.name}</h4>

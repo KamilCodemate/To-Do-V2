@@ -6,8 +6,9 @@ export default interface Task {
   startTime?: string;
   endTime?: string;
   subtasks: Array<{
+    id?: number;
     name: string;
-    isDone: boolean;
+    done: boolean;
   }>;
   done: boolean;
   important: boolean;

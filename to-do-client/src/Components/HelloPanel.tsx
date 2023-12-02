@@ -18,13 +18,18 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMod
   const [welcomeText, setWelcomeText] = useState<string>('');
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [tasks, setTasks] = useState<Array<Task>>();
+  const [rerenderEmitter, callRerenderEmitter] = useState<boolean>(false);
 
+  const rerenderHelloPanelComponent = () => {
+    const actualEmitterValue = rerenderEmitter;
+    callRerenderEmitter(!actualEmitterValue);
+  }
   const returnRightPanelElement = (modeType: RightPanelMode): React.ReactElement => {
     switch (modeType) {
       case RightPanelMode.Calendar:
         return <CustomCalendar tasks={tasks} />;
       case RightPanelMode.CreateTask:
-        return <AddTaskPanel username={username} token={token} />;
+        return <AddTaskPanel username={username} token={token} rerenderHelloComponent = {rerenderHelloPanelComponent}/>;
       default:
         return <CustomCalendar tasks={tasks} />;
     }
@@ -42,6 +47,7 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMod
     try {
       const response = await axios.post('/api/userpanel/getalltasks', requestData, config);
       setTasks(response.data);
+
     } catch (err) {
       console.log(err);
     }
@@ -75,14 +81,14 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMod
     }, 1000);
 
     getAllTasks();
-  });
+  }, [rerenderEmitter]);
 
   return (
     <div className='hello-container'>
       <div className='left-column'>
         <div className='welcome-first'>{welcomeText}</div>
         <div className='welcome-second'>{`\n${formattedDate}`}</div>
-        <MyTasks username={username} token={token} tasks={tasks} />
+        <MyTasks username={username} token={token} tasks={tasks} rerenderHelloComponent = {rerenderHelloPanelComponent}/>
       </div>
       {returnRightPanelElement(rightPanelMode)}
     </div>

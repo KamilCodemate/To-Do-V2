@@ -8,16 +8,17 @@ type Props = {
   username: string;
   token: string;
   tasks: Array<Task> | undefined;
+  rerenderHelloComponent: any;
 };
 
-const MyTasks: React.FC<Props> = ({ username, token, tasks }): React.ReactElement => {
+const MyTasks: React.FC<Props> = ({ username, token, tasks, rerenderHelloComponent }): React.ReactElement => {
   return (
     <div className='my-tasks-container'>
       <header>My tasks</header>
       <div className='my-tasks-subcontainer'>
         {tasks &&
-          tasks.map((element) => (
-            <SingleTask
+          tasks.map((element, index) => (
+           !element.done && <SingleTask key = {`single-task-no${index}`}
               id={element.id || 0}
               name={element.name}
               description={element.description}
@@ -29,6 +30,7 @@ const MyTasks: React.FC<Props> = ({ username, token, tasks }): React.ReactElemen
               endTime={element.endTime || undefined}
               username={username}
               token={token}
+                                        rerenderHelloComponent={rerenderHelloComponent}
             />
           ))}
       </div>

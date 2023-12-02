@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {MouseEventHandler, ReactSVGElement, useEffect, useState} from 'react';
 import { AiFillCalendar } from 'react-icons/ai';
 import { HiOutlinePencilSquare } from 'react-icons/hi2';
 import { FaTasks } from 'react-icons/fa';
@@ -21,11 +21,13 @@ type Props = {
   startTime?: string;
   endTime?: string;
   subtasks: Array<{
+    id?: number;
     name: string;
-    isDone: boolean;
+    done: boolean;
   }>;
   username: string;
   token: string;
+  rerenderHelloComponent: any;
 };
 
 const SingleTask: React.FC<Props> = ({
@@ -40,13 +42,16 @@ const SingleTask: React.FC<Props> = ({
   endTime,
   username,
   token,
+                                       rerenderHelloComponent
 }): React.ReactElement => {
-  const [showSubtasks, setShowSubtasks] = useState<boolean>(false);
+  const [showSubtasks, setShowSubtasks] = useState<boolean>
+  (false);
+  const [subtasksState, setSubtasks] = useState(subtasks);
   const [taskImportance, setTaskImportance] = useState<boolean>(important);
   const [taskDone, setTaskDone] = useState<boolean>(done);
-  const retDoneCount = (subtasksCopy: Array<{ name: String; isDone: boolean }>) => {
+  const retDoneCount = (subtasksCopy: Array<{ name: String; done: boolean }>) => {
     return subtasksCopy.reduce(function (count, element) {
-      if (element.isDone) return ++count;
+      if (element.done) return ++count;
       else return count;
     }, 0);
   };
@@ -59,6 +64,7 @@ const SingleTask: React.FC<Props> = ({
   } else if (endTime) {
     timeDisplay = `Ends at ${endTime}`;
   }
+
 
   const updateImportance = async () => {
     const requestData: UpdateTaskImportance = {
@@ -77,6 +83,7 @@ const SingleTask: React.FC<Props> = ({
       console.log(response);
 
       setTaskImportance(!taskImportance);
+
     } catch (err) {
       console.log(err);
     }
@@ -101,6 +108,32 @@ const SingleTask: React.FC<Props> = ({
       console.log(err);
     }
   };
+
+  const updateSubtaskCompletion = async(index: number) => {
+
+
+    const requestData = {
+      username: username,
+      subtaskId: subtasksState[index].id,
+      done:  !subtasksState[index].done
+    }
+    console.log(requestData);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const result = await axios.put("/api/userpanel/updatesubtaskcompletion", requestData, config);
+      if(result){
+      const subtaskCpy = subtasksState;
+      subtaskCpy[index].done = !subtaskCpy[index].done;
+      setSubtasks(subtaskCpy);
+      }
+    }
+    catch (err){console.log(err);}
+
+  }
   return (
     <div className='task'>
       <div className='main-col'>
@@ -133,11 +166,13 @@ const SingleTask: React.FC<Props> = ({
         {showSubtasks && (
           <div className='subtasks'>
             <ul>
-              {subtasks.map((element, index) => {
+              {subtasksState.map((element, index) => {
+                console.log(subtasksState);
+
                 return (
-                  <li key={`subtaskNO${index}`} style={{ textDecorationLine: element.isDone ? 'line-through' : 'none' }}>
+                  <li key={`subtaskNO${index}`} style={{ textDecorationLine: element.done ? 'line-through' : 'none' }}>
                     {`${index + 1}. ${element.name}`}
-                    <IoIosCheckmarkCircleOutline size={20} />
+                    <IoIosCheckmarkCircleOutline size={20} onClick={() => updateSubtaskCompletion(index)} style={{fill: element.done ? "green" : ""}} />
                   </li>
                 );
               })}
