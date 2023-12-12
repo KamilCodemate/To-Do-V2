@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, MouseEventHandler } from 'react';
 import axios from 'axios';
 import { BsFillSunFill, BsExclamationDiamondFill, BsPlusSquareFill } from 'react-icons/bs';
 import { GrSchedule } from 'react-icons/gr';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { AiFillHome } from 'react-icons/ai';
+import { MiddlePanelMode } from '../Types/MiddlePanelMode';
 type Props = {
   username: string;
   token: string;
   handleAddTask: () => void;
+  handleIconClick: (panelToChange: MiddlePanelMode) => void;
 };
 
-const LeftPanel: React.FC<Props> = ({ handleAddTask, username, token }): React.ReactElement => {
+const LeftPanel: React.FC<Props> = ({ handleAddTask, username, token, handleIconClick }): React.ReactElement => {
   const getAllTasks = async () => {
     const requestData = {
       username: username,
@@ -29,10 +31,10 @@ const LeftPanel: React.FC<Props> = ({ handleAddTask, username, token }): React.R
         <div className='side-nav-menu'>
           <ul>
             <li className='firstLi'>
-              <AiFillHome size={45} color='black' />
+              <AiFillHome size={45} color='black' onClick={() => handleIconClick(MiddlePanelMode.HelloPanel)} />
             </li>
             <li>
-              <BsFillSunFill size={30} color='orange' />
+              <BsFillSunFill size={30} color='orange' onClick={() => handleIconClick(MiddlePanelMode.MyDayPanel)} />
             </li>
             <li>
               <BsExclamationDiamondFill size={30} color='brown' />
