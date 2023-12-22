@@ -2,17 +2,22 @@
 body {
   background-color: rgb(213, 213, 213);
 }
+body,
+.register-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 .register-container {
   width: 100vw;
-  height: 100vh;
+  height: 900px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .register-area {
-  width: 80%;
-  height: 90%;
+  width: 90%;
+  height: 90vh;
   background-color: white;
   border-radius: 20px;
   display: flex;
