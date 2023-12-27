@@ -12,18 +12,6 @@ interface RegisterData {
   confirmPassword: string;
 }
 
-interface ResponseAPIModelOK {
-  message: string;
-  token: string;
-}
-interface ResponseAPIModelNotOK {
-  timestamp: string;
-  status: number;
-  error: string;
-  message: string;
-  path: string;
-}
-
 const Register: React.FC<{}> = (): React.ReactElement => {
   const navigate = useNavigate();
 

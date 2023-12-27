@@ -4,6 +4,7 @@ package com.kamilcodemate.todoserver.model.TaskModels;
 
 
 import com.kamilcodemate.todoserver.entity.Subtask;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class AddTaskRequestModel {
     * User username
     */
    @NotNull
+   @NotBlank
    private String username;
 
 
@@ -34,6 +36,7 @@ public class AddTaskRequestModel {
     * Task name
     */
    @NotNull
+   @NotBlank
    private String name;
    /**
     * Task deadline date (without time)
