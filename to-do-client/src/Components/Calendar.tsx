@@ -2,11 +2,13 @@ import React from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import Task from '../Types/TaskInterface';
+import { CalendarView } from '../Types/CalendarView';
 
 type Props = {
   tasks: Array<Task> | undefined;
+  view: CalendarView;
 };
-const CustomCalendar: React.FC<Props> = ({ tasks }): React.ReactElement => {
+const CustomCalendar: React.FC<Props> = ({ tasks, view }): React.ReactElement => {
   const localizer = momentLocalizer(moment);
   return (
     <div className='calendar-container'>
@@ -20,6 +22,7 @@ const CustomCalendar: React.FC<Props> = ({ tasks }): React.ReactElement => {
         }))}
         startAccessor='start'
         endAccessor='end'
+        defaultView={view}
       />
     </div>
   );

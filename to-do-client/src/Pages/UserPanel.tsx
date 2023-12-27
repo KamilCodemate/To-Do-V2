@@ -2,19 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PageStyles/UserPanel.scss';
 import LeftPanel from '../Components/LeftPanel';
-import Task from '../Types/TaskInterface';
 import UserData from '../Types/UserData';
 import axios from 'axios';
 import { RightPanelMode } from '../Types/RightPanelMode';
 import HelloPanel from '../Components/HelloPanel';
 import { MiddlePanelMode } from '../Types/MiddlePanelMode';
 import MyDay from '../Components/MyDay';
-interface PanelData {
-  firstName: string;
-  lastName: string;
-  username: string;
-  tasks: Array<Task>;
-}
 
 const UserPanel: React.FC<{}> = (): React.ReactElement => {
   const navigate = useNavigate();
@@ -56,7 +49,7 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
           <HelloPanel firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />
         );
       case MiddlePanelMode.MyDayPanel:
-        return <MyDay username={userData.username} token={userData.accessToken} />;
+        return <MyDay firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />;
     }
     return <HelloPanel firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />;
   };

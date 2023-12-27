@@ -9,12 +9,13 @@ type Props = {
   token: string;
   tasks: Array<Task> | undefined;
   rerenderComponent?: any;
+  headerText: string;
 };
 
-const MyTasks: React.FC<Props> = ({ username, token, tasks, rerenderComponent }): React.ReactElement => {
+const MyTasks: React.FC<Props> = ({ username, token, tasks, rerenderComponent, headerText }): React.ReactElement => {
   return (
     <div className='my-tasks-container'>
-      <header>My tasks</header>
+      <header>{headerText}</header>
       <div className='my-tasks-subcontainer'>
         {tasks &&
           tasks.map(

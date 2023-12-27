@@ -6,6 +6,7 @@ import Task from '../Types/TaskInterface';
 import CustomCalendar from './Calendar';
 import { RightPanelMode } from '../Types/RightPanelMode';
 import AddTaskPanel from './AddTaskPanel';
+import { CalendarView } from '../Types/CalendarView';
 
 type Props = {
   firstName: string;
@@ -27,11 +28,11 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMod
   const returnRightPanelElement = (modeType: RightPanelMode): React.ReactElement => {
     switch (modeType) {
       case RightPanelMode.Calendar:
-        return <CustomCalendar tasks={tasks} />;
+        return <CustomCalendar tasks={tasks} view={CalendarView.Week} />;
       case RightPanelMode.CreateTask:
         return <AddTaskPanel username={username} token={token} rerenderHelloComponent={rerenderHelloPanelComponent} />;
       default:
-        return <CustomCalendar tasks={tasks} />;
+        return <CustomCalendar tasks={tasks} view={CalendarView.Week} />;
     }
   };
   const getAllTasks = async () => {
@@ -87,7 +88,7 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMod
       <div className='left-column'>
         <div className='welcome-first'>{welcomeText}</div>
         <div className='welcome-second'>{`\n${formattedDate}`}</div>
-        <MyTasks username={username} token={token} tasks={tasks} rerenderComponent={rerenderHelloPanelComponent} />
+        <MyTasks username={username} token={token} tasks={tasks} rerenderComponent={rerenderHelloPanelComponent} headerText='All My Tasks' />
       </div>
       {returnRightPanelElement(rightPanelMode)}
     </div>
