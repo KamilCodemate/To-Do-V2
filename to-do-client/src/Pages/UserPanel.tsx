@@ -32,11 +32,11 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
     try {
       const response = await axios.post('/api/userpanel/getalltasks', requestData, config);
 
-      if (response.status !== 200) navigate('/login');
+      if (response.status !== 200) navigate('/register');
       console.log(response);
     } catch (err) {
       console.log(err);
-      navigate('/login');
+      navigate('/register');
     }
   };
   useEffect(() => {
