@@ -15,7 +15,7 @@ type Props = {
   rightPanelMode: RightPanelMode;
 };
 
-const MyDay: React.FC<Props> = ({ firstName, username, token, rightPanelMode }): React.ReactElement => {
+const ImportantTasks: React.FC<Props> = ({ firstName, username, token, rightPanelMode }): React.ReactElement => {
   const [welcomeText, setWelcomeText] = useState<string>('');
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [tasks, setTasks] = useState<Array<Task>>();
@@ -38,7 +38,6 @@ const MyDay: React.FC<Props> = ({ firstName, username, token, rightPanelMode }):
   const getAllTasks = async () => {
     const requestData = {
       username: username,
-      date: retTodayDate(),
     };
     const config = {
       headers: {
@@ -47,21 +46,12 @@ const MyDay: React.FC<Props> = ({ firstName, username, token, rightPanelMode }):
     };
 
     try {
-      const response = await axios.post('/api/userpanel/get-tasks-from-current-date', requestData, config);
+      const response = await axios.post('/api/userpanel/getAllImportantTasks', requestData, config);
       setTasks(response.data);
       console.log(response.data);
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const retTodayDate = () => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
   };
 
   useEffect(() => {
@@ -99,11 +89,11 @@ const MyDay: React.FC<Props> = ({ firstName, username, token, rightPanelMode }):
       <div className='left-column'>
         <div className='welcome-first'>{welcomeText}</div>
         <div className='welcome-second'>{`\n${formattedDate}`}</div>
-        <MyTasks username={username} token={token} tasks={tasks} rerenderComponent={rerenderHelloPanelComponent} headerText='Tasks For Today' />
+        <MyTasks username={username} token={token} tasks={tasks} rerenderComponent={rerenderHelloPanelComponent} headerText='My Important Tasks' />
       </div>
       {returnRightPanelElement(rightPanelMode)}
     </div>
   );
 };
 
-export default MyDay;
+export default ImportantTasks;

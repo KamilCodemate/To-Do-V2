@@ -25,7 +25,7 @@ public interface TaskService {
      *
      * @param date     Day which tasks must be from
      * @param username Username of the user to whom the tasks belong
-     * @param token
+     * @param token Authorization token
      * @return List of tasks
      */
  List<Task> getTaskByDate(LocalDate date, String username, String token) throws InvalidTokenException;
@@ -35,8 +35,8 @@ public interface TaskService {
      *
      * @param isImportant Importance state
      * @param id          Task id
-     * @param username
-     * @param token
+     * @param username Username of the user to whom the tasks belong
+     * @param token Authorization token
      * @return Integer of id of updated task
      */
      Integer updateIsImportantTaskAttributeById(boolean isImportant, Long id, String username, String token) throws InvalidTokenException;
@@ -47,6 +47,17 @@ public interface TaskService {
      */
      List<Task> getAllUserTasks(String username, String token) throws InvalidTokenException;
 
+    /**
+     * Update Task completion by its id
+     * @param isDone Task completion state
+     * @param id Task id
+     * @param username Username of the user to whom the tasks belong
+     * @param token Authorization token
+     * @return Id of updated task
+     * @throws InvalidTokenException
+     */
      Integer updateTaskCompletion(boolean isDone, Long id, String username, String token) throws InvalidTokenException;
 
+
+     List<Task> getAllImportantTasks(String username, String token) throws InvalidTokenException;
 }
