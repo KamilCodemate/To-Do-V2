@@ -88,7 +88,14 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMod
       <div className='left-column'>
         <div className='welcome-first'>{welcomeText}</div>
         <div className='welcome-second'>{`\n${formattedDate}`}</div>
-        <MyTasks username={username} token={token} tasks={tasks} rerenderComponent={rerenderHelloPanelComponent} headerText='All My Tasks' />
+        <MyTasks
+          username={username}
+          token={token}
+          tasks={tasks}
+          rerenderComponent={rerenderHelloPanelComponent}
+          headerText='All My Tasks'
+          showCompleted={false}
+        />
       </div>
       {returnRightPanelElement(rightPanelMode)}
     </div>

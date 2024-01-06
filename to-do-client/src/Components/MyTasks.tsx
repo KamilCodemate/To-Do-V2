@@ -10,9 +10,10 @@ type Props = {
   tasks: Array<Task> | undefined;
   rerenderComponent?: any;
   headerText: string;
+  showCompleted: boolean;
 };
 
-const MyTasks: React.FC<Props> = ({ username, token, tasks, rerenderComponent, headerText }): React.ReactElement => {
+const MyTasks: React.FC<Props> = ({ username, token, tasks, rerenderComponent, headerText, showCompleted }): React.ReactElement => {
   return (
     <div className='my-tasks-container'>
       <header>{headerText}</header>
@@ -20,7 +21,7 @@ const MyTasks: React.FC<Props> = ({ username, token, tasks, rerenderComponent, h
         {tasks &&
           tasks.map(
             (element, index) =>
-              !element.done && (
+              element.done === showCompleted && (
                 <SingleTask
                   key={`single-task-no${index}`}
                   id={element.id || 0}

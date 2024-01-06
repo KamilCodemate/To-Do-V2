@@ -43,7 +43,7 @@ const LeftPanel: React.FC<Props> = ({ handleAddTask, username, token, handleIcon
               <GrSchedule size={30} color='blueviolet' />
             </li>
             <li>
-              <IoCheckmarkDoneSharp size={30} color='blueviolet' />
+              <IoCheckmarkDoneSharp size={30} color='blueviolet' onClick={() => handleIconClick(MiddlePanelMode.CompletedPanel)} />
             </li>
           </ul>
           <div className='add-task-container'>

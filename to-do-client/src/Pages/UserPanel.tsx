@@ -9,6 +9,7 @@ import HelloPanel from '../Components/HelloPanel';
 import { MiddlePanelMode } from '../Types/MiddlePanelMode';
 import MyDay from '../Components/MyDay';
 import ImportantTasks from '../Components/ImportantTasks';
+import CompletedTasks from '../Components/CompletedTasks';
 
 const UserPanel: React.FC<{}> = (): React.ReactElement => {
   const navigate = useNavigate();
@@ -55,6 +56,10 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
       case MiddlePanelMode.ImportantPanel:
         return (
           <ImportantTasks firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />
+        );
+      case MiddlePanelMode.CompletedPanel:
+        return (
+          <CompletedTasks firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />
         );
     }
     return <HelloPanel firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />;

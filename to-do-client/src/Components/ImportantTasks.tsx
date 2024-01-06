@@ -89,7 +89,14 @@ const ImportantTasks: React.FC<Props> = ({ firstName, username, token, rightPane
       <div className='left-column'>
         <div className='welcome-first'>{welcomeText}</div>
         <div className='welcome-second'>{`\n${formattedDate}`}</div>
-        <MyTasks username={username} token={token} tasks={tasks} rerenderComponent={rerenderHelloPanelComponent} headerText='My Important Tasks' />
+        <MyTasks
+          username={username}
+          token={token}
+          tasks={tasks}
+          rerenderComponent={rerenderHelloPanelComponent}
+          headerText='My Important Tasks'
+          showCompleted={false}
+        />
       </div>
       {returnRightPanelElement(rightPanelMode)}
     </div>

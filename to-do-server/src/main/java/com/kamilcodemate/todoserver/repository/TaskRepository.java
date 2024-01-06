@@ -29,6 +29,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
      */
      List<Task> getTasksByUserUsername(String username);
     List<Task> getTasksByUserUsernameAndIsImportantTrue(String username);
+    List<Task> getTasksByUserUsernameAndIsDoneTrue(String username);
+
     /** Updating Task importance
      * @param isImportant Task importance state
      * @param id Id of Task to update

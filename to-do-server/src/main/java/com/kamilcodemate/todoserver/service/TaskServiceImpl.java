@@ -169,4 +169,17 @@ public class TaskServiceImpl implements TaskService {
         }
         throw new InvalidTokenException("Invalid permission role");
     }
+
+    @Override
+    public List<Task> getAllCompletedTasks(String username, String token) throws InvalidTokenException {
+        String clearedToken = token.replace("Bearer", "");
+        Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, username);
+        final String ROLE = tokenClaims.get("role").toString();
+
+        if(ROLE.equals("USER"))
+        {
+            return taskRepository.getTasksByUserUsernameAndIsDoneTrue(username);
+        }
+        throw new InvalidTokenException("Invalid permission role");
+    }
 }

@@ -60,4 +60,6 @@ public interface TaskService {
 
 
      List<Task> getAllImportantTasks(String username, String token) throws InvalidTokenException;
+
+     List<Task> getAllCompletedTasks(String username, String token) throws InvalidTokenException;
 }
