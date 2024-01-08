@@ -4,7 +4,7 @@
   width: 95%;
 
   height: 100%;
-  border: 2px solid rgb(50, 50, 50);
+
   border-radius: 20px;
   margin: 3% 0 3% 3%;
   padding: 20px;
@@ -37,13 +37,7 @@
     border-radius: 10px;
     border: 2px solid rgb(255, 255, 255);
     position: relative;
-    background: hsla(263, 42%, 65%, 1);
-
-    background: linear-gradient(45deg, hsla(263, 42%, 65%, 1) 0%, hsla(319, 77%, 86%, 1) 100%);
-
-    background: -moz-linear-gradient(45deg, hsla(263, 42%, 65%, 1) 0%, hsla(319, 77%, 86%, 1) 100%);
-
-    background: -webkit-linear-gradient(45deg, hsla(263, 42%, 65%, 1) 0%, hsla(319, 77%, 86%, 1) 100%);
+    border: 2px solid grey;
     .icons {
       position: absolute;
       right: 5px;

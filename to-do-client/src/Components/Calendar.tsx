@@ -12,7 +12,6 @@ const CustomCalendar: React.FC<Props> = ({ tasks, view }): React.ReactElement =>
   const localizer = momentLocalizer(moment);
   return (
     <div className='calendar-container'>
-      <header> My Calendar</header>
       <Calendar
         localizer={localizer}
         events={tasks?.map((task) => ({
