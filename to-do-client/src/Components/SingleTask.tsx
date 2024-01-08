@@ -48,6 +48,7 @@ const SingleTask: React.FC<Props> = ({
   const [subtasksState, setSubtasks] = useState(subtasks);
   const [taskImportance, setTaskImportance] = useState<boolean>(important);
   const [taskDone, setTaskDone] = useState<boolean>(done);
+
   const retDoneCount = (subtasksCopy: Array<{ name: String; done: boolean }>) => {
     return subtasksCopy.reduce(function (count, element) {
       if (element.done) return ++count;
@@ -130,7 +131,7 @@ const SingleTask: React.FC<Props> = ({
     }
   };
   return (
-    <div className='task'>
+    <div className='task' style={{ textDecoration: taskDone ? 'line-through' : 'none' }}>
       <div className='main-col'>
         <div className='name-col'>{name}</div>
         <div className='date-col'>
@@ -181,12 +182,12 @@ const SingleTask: React.FC<Props> = ({
       </div>
       <div className='icons'>
         {taskDone ? (
-          <IoCheckmarkCircleSharp size={25} className='checkmark filled' onClick={() => updateCompletion()} />
+          <IoCheckmarkCircleSharp size={25} className='checkmark filled' onClick={() => updateCompletion()} color={'green'} />
         ) : (
           <IoIosCheckmarkCircleOutline size={25} className='checkmark not-filled' onClick={() => updateCompletion()} />
         )}
         {taskImportance ? (
-          <AiFillStar size={25} className='importance-star filled' onClick={() => updateImportance()} color={'yellow'} />
+          <AiFillStar size={25} className='importance-star filled' onClick={() => updateImportance()} color={'rgb(255, 170, 0)'} />
         ) : (
           <AiOutlineStar size={25} className='importance-star not-filled' onClick={() => updateImportance()} />
         )}

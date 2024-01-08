@@ -53,34 +53,43 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMod
     }
   };
 
+  const welcomeTextFunction = () => {
+    const actualTime = new Date();
+    const actualHour = actualTime.getHours();
+    const actualSecond = actualTime.getSeconds();
+
+    const day = String(actualTime.getDate()).padStart(2, '0');
+    const month = (actualTime.getMonth() + 1).toString().padStart(2, '0');
+    const year = actualTime.getFullYear();
+    const hour = actualTime.getHours();
+    const minute = actualTime.getMinutes();
+    const ampm = hour >= 12 ? 'pm' : 'am';
+
+    let hour12 = hour % 12;
+    if (hour12 === 0) hour12 = 12;
+
+    const formattedTime = `${day}.${month}.${year} ${hour12}:${minute.toString().padStart(2, '0')}:${actualSecond
+      .toString()
+      .padStart(2, '0')} ${ampm}`;
+
+    if (actualHour >= 5 && actualHour <= 12) setWelcomeText(`Good Morning, ${firstName}`);
+    if (actualHour > 12 && actualHour <= 18) setWelcomeText(`Good Evening, ${firstName}`);
+    if (actualHour > 18 || actualHour < 5) setWelcomeText(`Good Night, ${firstName}`);
+
+    setFormattedDate(formattedTime);
+  };
+
   useEffect(() => {
-    setInterval(() => {
-      const actualTime = new Date();
-      const actualHour = actualTime.getHours();
-      const actualSecond = actualTime.getSeconds();
-
-      const day = String(actualTime.getDate()).padStart(2, '0');
-      const month = (actualTime.getMonth() + 1).toString().padStart(2, '0');
-      const year = actualTime.getFullYear();
-      const hour = actualTime.getHours();
-      const minute = actualTime.getMinutes();
-      const ampm = hour >= 12 ? 'pm' : 'am';
-
-      let hour12 = hour % 12;
-      if (hour12 === 0) hour12 = 12;
-
-      const formattedTime = `${day}.${month}.${year} ${hour12}:${minute.toString().padStart(2, '0')}:${actualSecond
-        .toString()
-        .padStart(2, '0')} ${ampm}`;
-
-      if (actualHour >= 5 && actualHour <= 12) setWelcomeText(`Good Morning, ${firstName}`);
-      if (actualHour > 12 && actualHour <= 18) setWelcomeText(`Good Evening, ${firstName}`);
-      if (actualHour > 18 || actualHour < 5) setWelcomeText(`Good Afternoon, ${firstName}`);
-
-      setFormattedDate(formattedTime);
+    welcomeTextFunction();
+    const intervalId = setInterval(() => {
+      welcomeTextFunction();
     }, 1000);
 
     getAllTasks();
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [rerenderEmitter]);
 
   return (

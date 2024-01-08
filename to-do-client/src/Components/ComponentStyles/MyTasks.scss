@@ -1,5 +1,5 @@
 @import '../../sassResources/fonts.scss';
-
+@import '../../sassResources/colors.scss';
 .my-tasks-container {
   width: 95%;
 
@@ -38,6 +38,7 @@
     border: 2px solid rgb(255, 255, 255);
     position: relative;
     border: 2px solid grey;
+    background-color: $background-lightgrey;
     .icons {
       position: absolute;
       right: 5px;
@@ -51,7 +52,7 @@
       }
       .importance-star:hover {
         cursor: pointer;
-        color: yellow;
+        color: rgb(255, 170, 0);
       }
     }
   }
