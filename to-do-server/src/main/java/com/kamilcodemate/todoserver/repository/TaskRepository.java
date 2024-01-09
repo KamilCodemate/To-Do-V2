@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -55,6 +56,17 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query("UPDATE Task t SET t.isDone = :isDone WHERE t.id = :id " +
             "AND t.user.username = :username")
    Integer updateTaskCompletion(boolean isDone, Long id, String username);
+
+
+    @Modifying
+    @Transactional
+    @Query("DELETE Task t WHERE t.id = :id AND t.user.username = :username")
+    Long deleteTaskById(Long id, String username);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Task t SET t.name = :name, t.description = :description, t.isImportant = :isImportant, t.isDone = :isDone, t.date = :date, t.startTime = :startTime, t.endTime = :endTime WHERE t.id = :id AND t.user.username = :username")
+    Long editTask(Long id, String username, String name, String description, boolean isImportant, boolean isDone, LocalDate date, Time startTime, Time endTime);
 
 
 

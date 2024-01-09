@@ -6,6 +6,7 @@ import com.kamilcodemate.todoserver.entity.User;
 import com.kamilcodemate.todoserver.exception.InvalidTokenException;
 import com.kamilcodemate.todoserver.helpers.CheckJwtToken;
 import com.kamilcodemate.todoserver.model.TaskModels.AddTaskRequestModel;
+import com.kamilcodemate.todoserver.model.TaskModels.EditTaskRequestModel;
 import com.kamilcodemate.todoserver.repository.TaskRepository;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,4 +183,43 @@ public class TaskServiceImpl implements TaskService {
         }
         throw new InvalidTokenException("Invalid permission role");
     }
+
+    @Override
+    public Long deleteTaskById(Long taskId, String username, String token) throws InvalidTokenException {
+        String clearedToken = token.replace("Bearer", "");
+        Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, username);
+        final String ROLE = tokenClaims.get("role").toString();
+
+        if(ROLE.equals("USER"))
+        {
+            return taskRepository.deleteTaskById(taskId, username);
+        }
+        throw new InvalidTokenException("Invalid permission role");
+    }
+
+    @Override
+    public Long updateTaskById(Long taskId, String username, EditTaskRequestModel taskData, String token) throws InvalidTokenException {
+        String clearedToken = token.replace("Bearer", "");
+        Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, username);
+        final String ROLE = tokenClaims.get("role").toString();
+
+        if(ROLE.equals("USER"))
+        {
+            Task task = new Task();
+            task.setName(taskData.getName());
+            task.setDescription(taskData.getDescription());
+            task.setImportant(taskData.isImportant());
+            task.setDone(taskData.isDone());
+            task.setDate(taskData.getDate());
+            task.setStartTime(taskData.getStartTime());
+            task.setEndTime(taskData.getEndTime());
+
+            return taskRepository.editTask(taskId, username, taskData.getName(), taskData.getDescription(), taskData.isImportant(), taskData.isDone(), taskData.getDate(), taskData.getStartTime(), taskData.getEndTime());
+        }
+        throw new InvalidTokenException("Invalid permission role");
+    }
+
+
+
+
 }

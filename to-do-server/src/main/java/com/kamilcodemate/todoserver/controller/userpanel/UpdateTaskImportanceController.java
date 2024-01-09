@@ -43,6 +43,7 @@ public class UpdateTaskImportanceController {
                                                        @RequestHeader(name = TOKEN_HEADER) String token)
             throws InvalidTokenException {
         Integer retTask = taskService.updateIsImportantTaskAttributeById
+
                 (requestData.isImportant(), requestData.getTaskId(),
                         requestData.getUsername(), token );
         if (retTask != null ) return new ResponseEntity<>("Task updated.", HttpStatus.OK);

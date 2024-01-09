@@ -4,6 +4,7 @@ import com.kamilcodemate.todoserver.entity.Task;
 import com.kamilcodemate.todoserver.entity.User;
 import com.kamilcodemate.todoserver.exception.InvalidTokenException;
 import com.kamilcodemate.todoserver.model.TaskModels.AddTaskRequestModel;
+import com.kamilcodemate.todoserver.model.TaskModels.EditTaskRequestModel;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -62,4 +63,8 @@ public interface TaskService {
      List<Task> getAllImportantTasks(String username, String token) throws InvalidTokenException;
 
      List<Task> getAllCompletedTasks(String username, String token) throws InvalidTokenException;
+
+    Long deleteTaskById(Long taskId, String username, String token) throws InvalidTokenException;
+
+    Long updateTaskById(Long TaskId, String username, EditTaskRequestModel taskData, String token) throws InvalidTokenException;
 }

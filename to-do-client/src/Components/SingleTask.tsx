@@ -186,6 +186,7 @@ const SingleTask: React.FC<Props> = ({
         ) : (
           <IoIosCheckmarkCircleOutline size={25} className='checkmark not-filled' onClick={() => updateCompletion()} />
         )}
+
         {taskImportance ? (
           <AiFillStar size={25} className='importance-star filled' onClick={() => updateImportance()} color={'rgb(255, 170, 0)'} />
         ) : (

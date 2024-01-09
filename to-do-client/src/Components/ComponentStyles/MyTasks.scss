@@ -102,16 +102,6 @@
     }
   }
 }
-.my-tasks-container::-webkit-scrollbar {
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  background-color: rgb(188, 122, 250);
-}
-.my-tasks-container::-webkit-scrollbar-thumb {
-  background-color: rgb(102, 102, 255);
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-}
 
 .subtasks {
   ul {
