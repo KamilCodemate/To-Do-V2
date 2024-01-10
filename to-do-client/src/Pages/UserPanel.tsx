@@ -10,13 +10,19 @@ import { MiddlePanelMode } from '../Types/MiddlePanelMode';
 import MyDay from '../Components/MyDay';
 import ImportantTasks from '../Components/ImportantTasks';
 import CompletedTasks from '../Components/CompletedTasks';
+import Task from '../Types/TaskInterface';
 
 const UserPanel: React.FC<{}> = (): React.ReactElement => {
   const navigate = useNavigate();
   const userData: UserData = JSON.parse(localStorage.getItem('userData') as string) || {};
   const [rightPanelMode, setRightPanelMode] = useState<RightPanelMode>(RightPanelMode.Calendar);
   const [middlePanelMode, setMiddlePanelMode] = useState<MiddlePanelMode>(MiddlePanelMode.HelloPanel);
+  const [editTaskDataState, setEditTaskDataState] = useState<Task>();
 
+  const handleEditTaskClicked = (editTaskData: Task) => {
+    setEditTaskDataState(editTaskData);
+    setRightPanelMode(RightPanelMode.EditTask);
+  };
   const getAllTasks = async () => {
     const userData = JSON.parse(localStorage.getItem('userData') as string) || {};
     const [username, token] = [userData.username || null, userData.accessToken || null];
@@ -48,21 +54,57 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
     switch (middlePanelMode) {
       case MiddlePanelMode.HelloPanel:
         return (
-          <HelloPanel firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />
+          <HelloPanel
+            firstName={userData.firstName}
+            username={userData.username}
+            token={userData.accessToken}
+            rightPanelMode={rightPanelMode}
+            editTaskData={editTaskDataState ? editTaskDataState : null}
+            handleEditTaskClicked={handleEditTaskClicked}
+          />
         );
       case MiddlePanelMode.MyDayPanel:
-        return <MyDay firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />;
+        return (
+          <MyDay
+            firstName={userData.firstName}
+            username={userData.username}
+            token={userData.accessToken}
+            rightPanelMode={rightPanelMode}
+            handleEditTaskClicked={handleEditTaskClicked}
+          />
+        );
 
       case MiddlePanelMode.ImportantPanel:
         return (
-          <ImportantTasks firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />
+          <ImportantTasks
+            firstName={userData.firstName}
+            username={userData.username}
+            token={userData.accessToken}
+            rightPanelMode={rightPanelMode}
+            handleEditTaskClicked={handleEditTaskClicked}
+          />
         );
       case MiddlePanelMode.CompletedPanel:
         return (
-          <CompletedTasks firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />
+          <CompletedTasks
+            firstName={userData.firstName}
+            username={userData.username}
+            token={userData.accessToken}
+            rightPanelMode={rightPanelMode}
+            handleEditTaskClicked={handleEditTaskClicked}
+          />
         );
     }
-    return <HelloPanel firstName={userData.firstName} username={userData.username} token={userData.accessToken} rightPanelMode={rightPanelMode} />;
+    return (
+      <HelloPanel
+        firstName={userData.firstName}
+        username={userData.username}
+        token={userData.accessToken}
+        rightPanelMode={rightPanelMode}
+        editTaskData={editTaskDataState ? editTaskDataState : null}
+        handleEditTaskClicked={(editTaskData: Task) => handleEditTaskClicked(editTaskData)}
+      />
+    );
   };
 
   const handleIconClick = (panelToChange: MiddlePanelMode) => {

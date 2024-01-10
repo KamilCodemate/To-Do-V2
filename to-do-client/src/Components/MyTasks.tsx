@@ -11,9 +11,18 @@ type Props = {
   rerenderComponent?: any;
   headerText: string;
   showCompleted: boolean;
+  handleEditTaskClicked: any;
 };
 
-const MyTasks: React.FC<Props> = ({ username, token, tasks, rerenderComponent, headerText, showCompleted }): React.ReactElement => {
+const MyTasks: React.FC<Props> = ({
+  username,
+  token,
+  tasks,
+  rerenderComponent,
+  headerText,
+  showCompleted,
+  handleEditTaskClicked,
+}): React.ReactElement => {
   return (
     <div className='my-tasks-container'>
       <header>{headerText}</header>
@@ -36,6 +45,7 @@ const MyTasks: React.FC<Props> = ({ username, token, tasks, rerenderComponent, h
                   username={username}
                   token={token}
                   rerenderComponent={rerenderComponent}
+                  handleEditTaskClicked={handleEditTaskClicked}
                 />
               )
           )}

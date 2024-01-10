@@ -13,9 +13,10 @@ type Props = {
   username: string;
   token: string;
   rightPanelMode: RightPanelMode;
+  handleEditTaskClicked: any;
 };
 
-const ImportantTasks: React.FC<Props> = ({ firstName, username, token, rightPanelMode }): React.ReactElement => {
+const ImportantTasks: React.FC<Props> = ({ firstName, username, token, rightPanelMode, handleEditTaskClicked }): React.ReactElement => {
   const [welcomeText, setWelcomeText] = useState<string>('');
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [tasks, setTasks] = useState<Array<Task>>();
@@ -100,6 +101,7 @@ const ImportantTasks: React.FC<Props> = ({ firstName, username, token, rightPane
           rerenderComponent={rerenderHelloPanelComponent}
           headerText='My Important Tasks'
           showCompleted={false}
+          handleEditTaskClicked={handleEditTaskClicked}
         />
       </div>
       {returnRightPanelElement(rightPanelMode)}

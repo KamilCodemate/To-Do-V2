@@ -8,7 +8,8 @@ import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 import axios from 'axios';
 import UpdateTaskImportance from '../Types/UpdateTaskImportance';
 import UpdateTaskCompletion from '../Types/UpdateTaskCompletion';
-
+import { CiEdit } from 'react-icons/ci';
+import Task from '../Types/TaskInterface';
 const requestURL_update_importance = '/api/user-panel/updatetaskimportance';
 const requestURL_update_completion = '/api/user-panel/updatetaskcompletion';
 type Props = {
@@ -28,6 +29,7 @@ type Props = {
   username: string;
   token: string;
   rerenderComponent: any;
+  handleEditTaskClicked: (editTaskData: Task) => void;
 };
 
 const SingleTask: React.FC<Props> = ({
@@ -43,6 +45,7 @@ const SingleTask: React.FC<Props> = ({
   username,
   token,
   rerenderComponent,
+  handleEditTaskClicked,
 }): React.ReactElement => {
   const [showSubtasks, setShowSubtasks] = useState<boolean>(false);
   const [subtasksState, setSubtasks] = useState(subtasks);
@@ -181,6 +184,21 @@ const SingleTask: React.FC<Props> = ({
         )}
       </div>
       <div className='icons'>
+        <CiEdit
+          size={25}
+          onClick={() =>
+            handleEditTaskClicked({
+              name,
+              description,
+              important: taskImportance,
+              done: taskDone,
+              date,
+              startTime,
+              endTime,
+              subtasks: subtasksState,
+            })
+          }
+        />
         {taskDone ? (
           <IoCheckmarkCircleSharp size={25} className='checkmark filled' onClick={() => updateCompletion()} color={'green'} />
         ) : (

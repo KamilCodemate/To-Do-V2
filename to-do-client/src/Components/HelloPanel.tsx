@@ -7,15 +7,18 @@ import CustomCalendar from './Calendar';
 import { RightPanelMode } from '../Types/RightPanelMode';
 import AddTaskPanel from './AddTaskPanel';
 import { CalendarView } from '../Types/CalendarView';
+import EditTaskPanel from './EditTaskPanel';
 
 type Props = {
   firstName: string;
   username: string;
   token: string;
   rightPanelMode: RightPanelMode;
+  editTaskData: Task | null;
+  handleEditTaskClicked: any;
 };
 
-const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMode }): React.ReactElement => {
+const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMode, editTaskData, handleEditTaskClicked }): React.ReactElement => {
   const [welcomeText, setWelcomeText] = useState<string>('');
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [tasks, setTasks] = useState<Array<Task>>();
@@ -31,10 +34,27 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMod
         return <CustomCalendar tasks={tasks} view={CalendarView.Week} />;
       case RightPanelMode.CreateTask:
         return <AddTaskPanel username={username} token={token} rerenderHelloComponent={rerenderHelloPanelComponent} />;
+      case RightPanelMode.EditTask:
+        return (
+          <EditTaskPanel
+            username={username}
+            token={token}
+            rerenderHelloComponent={rerenderHelloPanelComponent}
+            editTaskName={editTaskData?.name}
+            editTaskDescription={editTaskData?.description}
+            editTaskDate={editTaskData?.date}
+            editTaskStartTime={editTaskData?.startTime}
+            editTaskEndTime={editTaskData?.endTime}
+            editTaskSubtasks={editTaskData?.subtasks}
+            editTaskDone={editTaskData?.done}
+            editTaskImportant={editTaskData?.important}
+          />
+        );
       default:
         return <CustomCalendar tasks={tasks} view={CalendarView.Week} />;
     }
   };
+
   const getAllTasks = async () => {
     const requestData = {
       username: username,
@@ -104,6 +124,7 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMod
           rerenderComponent={rerenderHelloPanelComponent}
           headerText='All My Tasks'
           showCompleted={false}
+          handleEditTaskClicked={handleEditTaskClicked}
         />
       </div>
       {returnRightPanelElement(rightPanelMode)}
