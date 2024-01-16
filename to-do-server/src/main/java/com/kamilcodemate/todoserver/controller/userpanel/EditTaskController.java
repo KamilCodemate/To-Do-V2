@@ -22,9 +22,10 @@ public class EditTaskController {
     @Autowired
     private TaskServiceImpl taskService;
 
-    @PostMapping("/api/userpanel/editTask")
+    @PostMapping("/api/userpanel/edittask")
     public ResponseEntity<List<Task>> getAllImportantTasks(@RequestBody EditTaskRequestModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
-        Long retId = taskService.updateTaskById(requestData.getTaskId(), requestData.getUsername(), requestData, token);
+        System.out.println("edit request data = " + requestData);
+        Integer retId = taskService.updateTaskById(requestData.getTaskId(), requestData.getUsername(), requestData, token);
 
         if(retId != null) return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

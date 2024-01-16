@@ -185,7 +185,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Long deleteTaskById(Long taskId, String username, String token) throws InvalidTokenException {
+    public Integer deleteTaskById(Long taskId, String username, String token) throws InvalidTokenException {
         String clearedToken = token.replace("Bearer", "");
         Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, username);
         final String ROLE = tokenClaims.get("role").toString();
@@ -198,7 +198,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Long updateTaskById(Long taskId, String username, EditTaskRequestModel taskData, String token) throws InvalidTokenException {
+    public Integer updateTaskById(Long taskId, String username, EditTaskRequestModel taskData, String token) throws InvalidTokenException {
         String clearedToken = token.replace("Bearer", "");
         Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, username);
         final String ROLE = tokenClaims.get("role").toString();
@@ -213,7 +213,7 @@ public class TaskServiceImpl implements TaskService {
             task.setDate(taskData.getDate());
             task.setStartTime(taskData.getStartTime());
             task.setEndTime(taskData.getEndTime());
-
+            System.out.println(task);
             return taskRepository.editTask(taskId, username, taskData.getName(), taskData.getDescription(), taskData.isImportant(), taskData.isDone(), taskData.getDate(), taskData.getStartTime(), taskData.getEndTime());
         }
         throw new InvalidTokenException("Invalid permission role");

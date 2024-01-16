@@ -6,6 +6,7 @@ import Task from '../Types/TaskInterface';
 import axios from 'axios';
 
 type Props = {
+  id: number;
   username: string;
   token: string;
   rerenderHelloComponent: any;
@@ -32,6 +33,7 @@ const StyledIcon = styled(BsPlusSquareFill)`
 `;
 
 const EditTaskPanel: React.FC<Props> = ({
+  id,
   username,
   token,
   rerenderHelloComponent,
@@ -46,6 +48,7 @@ const EditTaskPanel: React.FC<Props> = ({
 }): React.ReactElement => {
   const [iconColor, setIconColor] = useState('rgb(23,23,23)');
   const [taskData, setTaskData] = useState<Task>({
+    id: id ? id : undefined,
     name: editTaskName ? editTaskName : '',
     description: editTaskDescription ? editTaskDescription : '',
     date: editTaskDate ? editTaskDate : new Date(),
@@ -66,15 +69,17 @@ const EditTaskPanel: React.FC<Props> = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    let formattedStartTime = `${taskData.startTime}`.substring(0, 8);
+    let formattedEndTime = `${taskData.endTime}`.substring(0, 8);
     const requestData = {
+      id: taskData.id,
       username: username,
       name: taskData.name,
       date: taskData.date,
-      startTime: `${taskData.startTime}:00`,
-      endTime: `${taskData.endTime}:00`,
+      startTime: `${formattedStartTime}`,
+      endTime: `${formattedEndTime}`,
       description: taskData.description,
-      subtasks: taskData.subtasks.slice(0, -1),
+      subtasks: taskData.subtasks,
     };
     const config = {
       headers: {
@@ -82,7 +87,8 @@ const EditTaskPanel: React.FC<Props> = ({
       },
     };
     try {
-      const response = await axios.post('/api/userpanel/editTask', requestData, config);
+      console.log(requestData);
+      const response = await axios.post('/api/userpanel/edittask', requestData, config);
       rerenderHelloComponent();
       console.log(response.data);
     } catch (error) {

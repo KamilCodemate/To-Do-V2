@@ -37,6 +37,8 @@ const HelloPanel: React.FC<Props> = ({ firstName, username, token, rightPanelMod
       case RightPanelMode.EditTask:
         return (
           <EditTaskPanel
+            //@ts-expect-error
+            id={editTaskData?.id}
             username={username}
             token={token}
             rerenderHelloComponent={rerenderHelloPanelComponent}

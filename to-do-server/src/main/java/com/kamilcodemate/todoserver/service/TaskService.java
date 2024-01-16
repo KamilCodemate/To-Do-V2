@@ -64,7 +64,7 @@ public interface TaskService {
 
      List<Task> getAllCompletedTasks(String username, String token) throws InvalidTokenException;
 
-    Long deleteTaskById(Long taskId, String username, String token) throws InvalidTokenException;
+    Integer deleteTaskById(Long taskId, String username, String token) throws InvalidTokenException;
 
-    Long updateTaskById(Long TaskId, String username, EditTaskRequestModel taskData, String token) throws InvalidTokenException;
+    Integer updateTaskById(Long TaskId, String username, EditTaskRequestModel taskData, String token) throws InvalidTokenException;
 }

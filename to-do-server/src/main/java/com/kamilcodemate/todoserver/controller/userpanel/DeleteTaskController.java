@@ -26,7 +26,7 @@ public class DeleteTaskController {
 
     @PostMapping("/api/userpanel/deleteTask")
     public ResponseEntity<List<Task>> getAllImportantTasks(@RequestBody DeleteTaskRequestModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
-        Long retId = taskService.deleteTaskById(requestData.getTaskId(), requestData.getUsername(), token);
+        Integer retId = taskService.deleteTaskById(requestData.getTaskId(), requestData.getUsername(), token);
 
         if(retId != null) return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

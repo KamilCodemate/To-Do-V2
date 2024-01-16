@@ -33,7 +33,8 @@ const MyTasks: React.FC<Props> = ({
               element.done === showCompleted && (
                 <SingleTask
                   key={`single-task-no${index}`}
-                  id={element.id || 0}
+                  //@ts-expect-error
+                  id={element.id}
                   name={element.name}
                   description={element.description}
                   important={element.important}

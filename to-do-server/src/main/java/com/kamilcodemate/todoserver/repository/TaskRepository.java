@@ -61,12 +61,12 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Modifying
     @Transactional
     @Query("DELETE Task t WHERE t.id = :id AND t.user.username = :username")
-    Long deleteTaskById(Long id, String username);
+    Integer deleteTaskById(Long id, String username);
 
     @Modifying
     @Transactional
     @Query("UPDATE Task t SET t.name = :name, t.description = :description, t.isImportant = :isImportant, t.isDone = :isDone, t.date = :date, t.startTime = :startTime, t.endTime = :endTime WHERE t.id = :id AND t.user.username = :username")
-    Long editTask(Long id, String username, String name, String description, boolean isImportant, boolean isDone, LocalDate date, Time startTime, Time endTime);
+    Integer editTask(Long id, String username, String name, String description, boolean isImportant, boolean isDone, LocalDate date, Time startTime, Time endTime);
 
 
 

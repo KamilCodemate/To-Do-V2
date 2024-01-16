@@ -82,7 +82,6 @@ const SingleTask: React.FC<Props> = ({
     };
     try {
       const response = await axios.put(requestURL_update_importance, requestData, config);
-      console.log(response);
 
       setTaskImportance(!taskImportance);
     } catch (err) {
@@ -95,7 +94,7 @@ const SingleTask: React.FC<Props> = ({
       done: !taskDone,
       taskId: id,
     };
-    console.log(requestData);
+
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -103,7 +102,7 @@ const SingleTask: React.FC<Props> = ({
     };
     try {
       const response = await axios.put(requestURL_update_completion, requestData, config);
-      console.log(response);
+
       setTaskDone(!taskDone);
     } catch (err) {
       console.log(err);
@@ -116,7 +115,7 @@ const SingleTask: React.FC<Props> = ({
       subtaskId: subtasksState[index].id,
       done: !subtasksState[index].done,
     };
-    console.log(requestData);
+
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -166,8 +165,6 @@ const SingleTask: React.FC<Props> = ({
           <div className='subtasks'>
             <ul>
               {subtasksState.map((element, index) => {
-                console.log(subtasksState);
-
                 return (
                   <li key={`subtaskNO${index}`} style={{ textDecorationLine: element.done ? 'line-through' : 'none' }}>
                     {`${index + 1}. ${element.name}`}
@@ -188,6 +185,7 @@ const SingleTask: React.FC<Props> = ({
           size={25}
           onClick={() =>
             handleEditTaskClicked({
+              id,
               name,
               description,
               important: taskImportance,

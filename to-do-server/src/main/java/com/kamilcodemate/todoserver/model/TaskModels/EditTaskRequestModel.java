@@ -32,7 +32,6 @@ public class EditTaskRequestModel {
     @NotNull
     private boolean isImportant;
     @NotNull
-    @NotBlank
     private String description;
 
 }
