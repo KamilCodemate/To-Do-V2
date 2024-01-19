@@ -8,8 +8,10 @@ import com.kamilcodemate.todoserver.helpers.CheckJwtToken;
 import com.kamilcodemate.todoserver.model.TaskModels.AddTaskRequestModel;
 import com.kamilcodemate.todoserver.model.TaskModels.EditTaskRequestModel;
 import com.kamilcodemate.todoserver.repository.TaskRepository;
+import com.kamilcodemate.todoserver.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,15 +33,18 @@ public class TaskServiceImpl implements TaskService {
     /**
      * Task Repository class
      */
-    @Autowired
+
     final TaskRepository taskRepository;
 
+
+    final UserRepository userRepository;
 
     /** IOC constructor
      * @param taskRepository TaskRepository to initialize
      */
-    public TaskServiceImpl(TaskRepository taskRepository) {
+    public TaskServiceImpl(TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -198,28 +203,44 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Integer updateTaskById(Long taskId, String username, EditTaskRequestModel taskData, String token) throws InvalidTokenException {
+    public Long updateTaskById(Long taskId, String username, EditTaskRequestModel taskData, String token) throws InvalidTokenException {
         String clearedToken = token.replace("Bearer", "");
         Claims tokenClaims = checkJwtToken.checkJwt(clearedToken, username);
         final String ROLE = tokenClaims.get("role").toString();
 
         if(ROLE.equals("USER"))
         {
-            Task task = new Task();
-            task.setName(taskData.getName());
-            task.setDescription(taskData.getDescription());
-            task.setImportant(taskData.isImportant());
-            task.setDone(taskData.isDone());
-            task.setDate(taskData.getDate());
-            task.setStartTime(taskData.getStartTime());
-            task.setEndTime(taskData.getEndTime());
+            final User user = userRepository.getUserByUsername(taskData.getUsername());
+            if(user == null) throw new BadCredentialsException("Invalid user data");
+            Task task = getTask(taskData, user);
+
             System.out.println(task);
-            return taskRepository.editTask(taskId, username, taskData.getName(), taskData.getDescription(), taskData.isImportant(), taskData.isDone(), taskData.getDate(), taskData.getStartTime(), taskData.getEndTime());
+            Task retTask = taskRepository.save(task);
+            return retTask.getId();
         }
+
         throw new InvalidTokenException("Invalid permission role");
     }
 
+    private static Task getTask(EditTaskRequestModel taskData, User user) {
+        Task task = new Task();
+        task.setUser(user);
+        task.setId(taskData.getTaskId());
+        task.setName(taskData.getName());
+        task.setDescription(taskData.getDescription());
+        task.setImportant(taskData.isImportant());
+        task.setDone(taskData.isDone());
+        task.setDate(taskData.getDate());
+        task.setStartTime(taskData.getStartTime());
+        task.setEndTime(taskData.getEndTime());
 
+
+        List<Subtask> subtasks = taskData.getSubtasks();
+        subtasks.forEach(subtask -> subtask.setTask(task));
+        task.setSubtasks(subtasks);
+        System.out.println(task);
+        return task;
+    }
 
 
 }
