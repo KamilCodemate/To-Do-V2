@@ -1,5 +1,6 @@
 package com.kamilcodemate.todoserver.repository;
 
+import com.kamilcodemate.todoserver.entity.Subtask;
 import com.kamilcodemate.todoserver.entity.Task;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -63,10 +64,10 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query("DELETE Task t WHERE t.id = :id AND t.user.username = :username")
     Integer deleteTaskById(Long id, String username);
 
-    @Modifying
+    @ Modifying
     @Transactional
-    @Query("UPDATE Task t SET t.name = :name, t.description = :description, t.isImportant = :isImportant, t.isDone = :isDone, t.date = :date, t.startTime = :startTime, t.endTime = :endTime WHERE t.id = :id AND t.user.username = :username")
-    Integer editTask(Long id, String username, String name, String description, boolean isImportant, boolean isDone, LocalDate date, Time startTime, Time endTime);
+    @Query("UPDATE Task t SET t.name = :name, t.description = :description, t.isImportant = :isImportant, t.isDone = :isDone, t.date = :date, t.startTime = :startTime, t.endTime = :endTime, t.subtasks = :subtasks WHERE t.id = :id AND t.user.username = :username")
+    Integer editTask(Long id, String username, String name, String description, boolean isImportant, boolean isDone, LocalDate date, Time startTime, Time endTime, List<Subtask> subtasks);
 
 
 

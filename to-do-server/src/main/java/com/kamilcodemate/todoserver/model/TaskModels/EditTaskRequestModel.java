@@ -1,4 +1,5 @@
 package com.kamilcodemate.todoserver.model.TaskModels;
+import com.kamilcodemate.todoserver.entity.Subtask;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -31,6 +33,8 @@ public class EditTaskRequestModel {
     private boolean isDone;
     @NotNull
     private boolean isImportant;
+
+    private List<Subtask> subtasks;
     @NotNull
     private String description;
 
