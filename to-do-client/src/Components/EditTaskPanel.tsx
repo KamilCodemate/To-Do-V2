@@ -48,8 +48,9 @@ const EditTaskPanel: React.FC<Props> = ({
   editTaskImportant,
 }): React.ReactElement => {
   const [iconColor, setIconColor] = useState('rgb(23,23,23)');
+
   const [taskData, setTaskData] = useState<Task>({
-    id: id ? id : undefined,
+    id: id,
     name: editTaskName ? editTaskName : '',
     description: editTaskDescription ? editTaskDescription : '',
     date: editTaskDate ? editTaskDate : new Date(),
@@ -73,14 +74,14 @@ const EditTaskPanel: React.FC<Props> = ({
     let formattedStartTime = `${taskData.startTime}`.substring(0, 8);
     let formattedEndTime = `${taskData.endTime}`.substring(0, 8);
     const requestData = {
-      id: taskData.id,
+      taskId: taskData.id,
       username: username,
       name: taskData.name,
       date: taskData.date,
       startTime: `${formattedStartTime}`,
       endTime: `${formattedEndTime}`,
       description: taskData.description,
-      subtasks: taskData.subtasks,
+      subtasks: taskData.subtasks.slice(0, -1),
     };
     const config = {
       headers: {
@@ -99,7 +100,8 @@ const EditTaskPanel: React.FC<Props> = ({
 
   const handleSubtaskChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSubtasks = [...taskData.subtasks];
-    newSubtasks[index] = { name: e.target.value, done: false };
+    const taskCpy = newSubtasks[index];
+    newSubtasks[index] = { id: taskCpy.id, name: e.target.value, done: taskCpy.done };
     setTaskData({ ...taskData, subtasks: newSubtasks });
 
     if (e.target.value === '' && index < newSubtasks.length - 1) {
