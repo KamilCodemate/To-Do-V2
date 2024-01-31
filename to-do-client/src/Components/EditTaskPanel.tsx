@@ -47,8 +47,9 @@ const EditTaskPanel: React.FC<Props> = ({
   editTaskImportant,
 }): React.ReactElement => {
   const [iconColor, setIconColor] = useState('rgb(23,23,23)');
+
   const [taskData, setTaskData] = useState<Task>({
-    id: id ? id : undefined,
+    id: id,
     name: editTaskName ? editTaskName : '',
     description: editTaskDescription ? editTaskDescription : '',
     date: editTaskDate ? editTaskDate : new Date(),
@@ -98,7 +99,8 @@ const EditTaskPanel: React.FC<Props> = ({
 
   const handleSubtaskChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSubtasks = [...taskData.subtasks];
-    newSubtasks[index] = { name: e.target.value, done: false };
+    const taskCpy = newSubtasks[index];
+    newSubtasks[index] = { id: taskCpy.id, name: e.target.value, done: taskCpy.done };
     setTaskData({ ...taskData, subtasks: newSubtasks });
 
     if (e.target.value === '' && index < newSubtasks.length - 1) {

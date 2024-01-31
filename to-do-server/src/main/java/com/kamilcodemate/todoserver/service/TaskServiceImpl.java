@@ -76,7 +76,7 @@ public class TaskServiceImpl implements TaskService {
             }
             task.setSubtasks(subtasks);
 
-            System.out.println(task);
+            System.out.println(task.getSubtasks());
 
             return taskRepository.save(task);
         }
