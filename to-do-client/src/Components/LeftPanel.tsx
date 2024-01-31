@@ -39,9 +39,7 @@ const LeftPanel: React.FC<Props> = ({ handleAddTask, username, token, handleIcon
             <li>
               <BsExclamationDiamondFill size={30} color='brown' onClick={() => handleIconClick(MiddlePanelMode.ImportantPanel)} />
             </li>
-            <li>
-              <GrSchedule size={30} color='blueviolet' />
-            </li>
+
             <li>
               <IoCheckmarkDoneSharp size={30} color='blueviolet' onClick={() => handleIconClick(MiddlePanelMode.CompletedPanel)} />
             </li>

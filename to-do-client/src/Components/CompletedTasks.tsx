@@ -7,16 +7,17 @@ import CustomCalendar from './Calendar';
 import { RightPanelMode } from '../Types/RightPanelMode';
 import AddTaskPanel from './AddTaskPanel';
 import { CalendarView } from '../Types/CalendarView';
-
+import EditTaskPanel from './EditTaskPanel';
 type Props = {
   firstName: string;
   username: string;
   token: string;
   rightPanelMode: RightPanelMode;
   handleEditTaskClicked: any;
+  editTaskData: Task | null;
 };
 
-const CompletedTasks: React.FC<Props> = ({ firstName, username, token, rightPanelMode, handleEditTaskClicked }): React.ReactElement => {
+const CompletedTasks: React.FC<Props> = ({ firstName, username, token, rightPanelMode, handleEditTaskClicked, editTaskData }): React.ReactElement => {
   const [welcomeText, setWelcomeText] = useState<string>('');
   const [formattedDate, setFormattedDate] = useState<string>('');
   const [tasks, setTasks] = useState<Array<Task>>();
@@ -29,11 +30,29 @@ const CompletedTasks: React.FC<Props> = ({ firstName, username, token, rightPane
   const returnRightPanelElement = (modeType: RightPanelMode): React.ReactElement => {
     switch (modeType) {
       case RightPanelMode.Calendar:
-        return <CustomCalendar tasks={tasks} view={CalendarView.Day} />;
+        return <CustomCalendar tasks={tasks} view={CalendarView.Week} />;
       case RightPanelMode.CreateTask:
         return <AddTaskPanel username={username} token={token} rerenderHelloComponent={rerenderHelloPanelComponent} />;
+      case RightPanelMode.EditTask:
+        return (
+          <EditTaskPanel
+            //@ts-expect-error
+            id={editTaskData?.id}
+            username={username}
+            token={token}
+            rerenderHelloComponent={rerenderHelloPanelComponent}
+            editTaskName={editTaskData?.name}
+            editTaskDescription={editTaskData?.description}
+            editTaskDate={editTaskData?.date}
+            editTaskStartTime={editTaskData?.startTime}
+            editTaskEndTime={editTaskData?.endTime}
+            editTaskSubtasks={editTaskData?.subtasks}
+            editTaskDone={editTaskData?.done}
+            editTaskImportant={editTaskData?.important}
+          />
+        );
       default:
-        return <CustomCalendar tasks={tasks} view={CalendarView.Day} />;
+        return <CustomCalendar tasks={tasks} view={CalendarView.Week} />;
     }
   };
   const getAllTasks = async () => {

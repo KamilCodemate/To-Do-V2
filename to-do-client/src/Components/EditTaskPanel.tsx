@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import './ComponentStyles/AddTaskPanel.scss';
-import { BsPlusSquareFill } from 'react-icons/bs';
 import styled from 'styled-components';
 import Task from '../Types/TaskInterface';
 import axios from 'axios';
-
+import { MdEdit } from 'react-icons/md';
 type Props = {
   id: number;
   username: string;
@@ -24,8 +23,10 @@ type Props = {
   editTaskImportant?: boolean;
 };
 
-const StyledIcon = styled(BsPlusSquareFill)`
+const StyledIcon = styled(MdEdit)`
   transition: fill 0.6s;
+  border: 2px solid rgb(66, 66, 66);
+  border-radius: 10px;
   &:hover {
     cursor: pointer;
     fill: rgb(66, 66, 66);

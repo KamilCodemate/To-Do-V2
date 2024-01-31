@@ -71,6 +71,7 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
             token={userData.accessToken}
             rightPanelMode={rightPanelMode}
             handleEditTaskClicked={handleEditTaskClicked}
+            editTaskData={editTaskDataState ? editTaskDataState : null}
           />
         );
 
@@ -82,6 +83,7 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
             token={userData.accessToken}
             rightPanelMode={rightPanelMode}
             handleEditTaskClicked={handleEditTaskClicked}
+            editTaskData={editTaskDataState ? editTaskDataState : null}
           />
         );
       case MiddlePanelMode.CompletedPanel:
@@ -92,6 +94,7 @@ const UserPanel: React.FC<{}> = (): React.ReactElement => {
             token={userData.accessToken}
             rightPanelMode={rightPanelMode}
             handleEditTaskClicked={handleEditTaskClicked}
+            editTaskData={editTaskDataState ? editTaskDataState : null}
           />
         );
     }
