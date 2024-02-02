@@ -5,6 +5,7 @@ import com.kamilcodemate.todoserver.entity.User;
 import com.kamilcodemate.todoserver.exception.InvalidPasswordConfirmationException;
 import com.kamilcodemate.todoserver.exception.InvalidTokenException;
 import com.kamilcodemate.todoserver.helpers.CheckJwtToken;
+import com.kamilcodemate.todoserver.model.ResponseWithTokenLogInModel;
 import com.kamilcodemate.todoserver.model.ResponseWithTokenModel;
 import com.kamilcodemate.todoserver.model.UserModel;
 import com.kamilcodemate.todoserver.repository.UserRepository;
@@ -12,6 +13,7 @@ import io.jsonwebtoken.Claims;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -107,4 +109,21 @@ public class UserServiceImpl implements UserService {
         }
         throw new InvalidTokenException("Invalid token.");
     }
+    public ResponseWithTokenLogInModel loginUser(String username, String password)
+    {
+
+        System.out.println(username + ", " + password);
+        if(username == null || username.isEmpty() || password == null || password.isEmpty())
+            throw new BadCredentialsException("Provide username and password");
+        User user = userRepository.getUserByUsername(username);
+        if(user == null) throw new BadCredentialsException("Incorrect username or password");
+        String dbPassword = user.getPassword();
+        boolean isMatch = passwordEncoder.matches(password, dbPassword);
+        String token = tokenServiceMethods.generateToken(user);
+        user.setPassword(null);
+        if(isMatch) return new ResponseWithTokenLogInModel(user, token);
+        else throw new BadCredentialsException("Incorrect username or password");
+
+    }
+
 }

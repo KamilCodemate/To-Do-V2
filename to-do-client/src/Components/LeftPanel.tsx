@@ -1,10 +1,10 @@
-import React, { useState, useEffect, MouseEventHandler } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { BsFillSunFill, BsExclamationDiamondFill, BsPlusSquareFill } from 'react-icons/bs';
-import { GrSchedule } from 'react-icons/gr';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { AiFillHome } from 'react-icons/ai';
 import { MiddlePanelMode } from '../Types/MiddlePanelMode';
+import { LuLogOut } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
 type Props = {
   username: string;
   token: string;
@@ -13,16 +13,10 @@ type Props = {
 };
 
 const LeftPanel: React.FC<Props> = ({ handleAddTask, username, token, handleIconClick }): React.ReactElement => {
-  const getAllTasks = async () => {
-    const requestData = {
-      username: username,
-      token: token,
-    };
-    try {
-      const response = await axios.post('/api/userpanel/getalltasks');
-    } catch (err) {
-      console.log(err);
-    }
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('userData');
+    navigate('/login');
   };
 
   return (
@@ -42,6 +36,9 @@ const LeftPanel: React.FC<Props> = ({ handleAddTask, username, token, handleIcon
 
             <li>
               <IoCheckmarkDoneSharp size={30} color='blueviolet' onClick={() => handleIconClick(MiddlePanelMode.CompletedPanel)} />
+            </li>
+            <li>
+              <LuLogOut size={30} style={{ transform: 'rotate(180deg)' }} onClick={() => handleLogout()} />
             </li>
           </ul>
           <div className='add-task-container'>

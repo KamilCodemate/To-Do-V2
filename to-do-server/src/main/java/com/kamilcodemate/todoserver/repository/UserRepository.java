@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
       * @return User with provided username
       */
      User getUserByUsername(String username);
+
+
 }

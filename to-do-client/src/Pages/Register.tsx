@@ -47,6 +47,7 @@ const Register: React.FC<{}> = (): React.ReactElement => {
           lastName: registerData.lastName,
           username: registerData.username,
         };
+        localStorage.removeItem('userData');
         localStorage.setItem('userData', JSON.stringify(userData));
         navigate('/panel');
       } else {
