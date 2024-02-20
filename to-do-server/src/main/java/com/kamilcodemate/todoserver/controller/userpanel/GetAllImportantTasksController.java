@@ -3,6 +3,7 @@ package com.kamilcodemate.todoserver.controller.userpanel;
 import com.kamilcodemate.todoserver.entity.Task;
 import com.kamilcodemate.todoserver.exception.InvalidTokenException;
 import com.kamilcodemate.todoserver.service.TaskServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -30,7 +31,7 @@ public class GetAllImportantTasksController {
 
 
     @PostMapping("/api/userpanel/getAllImportantTasks")
-    public ResponseEntity<List<Task>> getAllImportantTasks(@RequestBody String  data, @RequestHeader(name = TOKEN_HEADER) String token) throws JSONException, InvalidTokenException {
+    public ResponseEntity<List<Task>> getAllImportantTasks(@RequestBody @Valid String  data, @RequestHeader(name = TOKEN_HEADER) String token) throws JSONException, InvalidTokenException {
         JSONObject jsonObject = new JSONObject(data);
         String username = jsonObject.getString("username");
 

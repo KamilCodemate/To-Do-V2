@@ -18,24 +18,26 @@ public class EditTaskRequestModel {
 
     @NotNull
     private Long taskId;
-    @NotNull
-    @Length(min = 1, max = 100)
+    @NotNull(message = "Task name cannot be null")
+    @NotBlank(message = "Task name cannot be blank")
+    @Length(min = 1, max = 20, message = "Task name must contain between 1 and 20 characters")
     private String name;
     @NotBlank
     private String username;
-    @NotNull
+    @NotNull(message = "Date cannot be null")
+    @NotBlank(message = "Date cannot be blank")
     private LocalDate date;
-    @NotNull
+    @NotNull(message = "Start time cannot be null")
+    @NotBlank(message = "Start time cannot be blank")
     private Time startTime;
-    @NotNull
+    @NotNull(message = "End time cannot be null")
+    @NotBlank(message = "End time cannot be blank")
     private Time endTime;
-    @NotNull
+    @NotNull(message = "Completion cannot be null")
     private boolean isDone;
-    @NotNull
+    @NotNull(message = "Importance cannot be null")
     private boolean isImportant;
-
     private List<Subtask> subtasks;
-    @NotNull
     private String description;
 
 }

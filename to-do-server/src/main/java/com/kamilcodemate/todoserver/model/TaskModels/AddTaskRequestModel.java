@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import java.sql.Time;
 import java.time.LocalDate;
@@ -35,8 +36,9 @@ public class AddTaskRequestModel {
    /**
     * Task name
     */
-   @NotNull
-   @NotBlank
+   @NotNull(message = "Task name cannot be null")
+   @NotBlank(message = "Task name cannot be blank")
+   @Length(min = 1, max = 20, message = "Task name must contain between 1 and 20 characters")
    private String name;
    /**
     * Task deadline date (without time)

@@ -8,6 +8,7 @@ import com.kamilcodemate.todoserver.model.TaskModels.AddTaskRequestModel;
 import com.kamilcodemate.todoserver.service.SubtaskServiceImpl;
 import com.kamilcodemate.todoserver.service.TaskServiceImpl;
 import com.kamilcodemate.todoserver.service.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class AddTaskController {
      * @throws InvalidTokenException Throws if token is invalid
      */
     @PostMapping("/api/userpanel/addtask") public ResponseEntity<?> addTask
-    (@RequestBody AddTaskRequestModel requestData,
+    (@RequestBody @Valid AddTaskRequestModel requestData,
      @RequestHeader(name = TOKEN_HEADER) String token)
             throws InvalidTokenException {
         User user = userService.findUserByUsername(requestData.getUsername()

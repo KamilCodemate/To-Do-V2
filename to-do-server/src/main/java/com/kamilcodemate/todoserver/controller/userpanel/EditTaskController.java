@@ -3,6 +3,7 @@ import com.kamilcodemate.todoserver.entity.Task;
 import com.kamilcodemate.todoserver.exception.InvalidTokenException;
 import com.kamilcodemate.todoserver.model.TaskModels.EditTaskRequestModel;
 import com.kamilcodemate.todoserver.service.TaskServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class EditTaskController {
     private TaskServiceImpl taskService;
 
     @PostMapping("/api/userpanel/edittask")
-    public ResponseEntity<List<Task>> getAllImportantTasks(@RequestBody EditTaskRequestModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
+    public ResponseEntity<List<Task>> getAllImportantTasks(@RequestBody @Valid EditTaskRequestModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
         System.out.println("edit request data = " + requestData);
         Long retId = taskService.updateTaskById(requestData.getTaskId(), requestData.getUsername(), requestData, token);
 

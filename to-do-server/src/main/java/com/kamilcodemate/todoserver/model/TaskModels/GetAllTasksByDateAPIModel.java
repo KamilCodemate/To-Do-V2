@@ -28,6 +28,5 @@ public class GetAllTasksByDateAPIModel {
      * Day which tasks must be from
      */
     @NotNull
-    @NotBlank
     LocalDate date;
 }

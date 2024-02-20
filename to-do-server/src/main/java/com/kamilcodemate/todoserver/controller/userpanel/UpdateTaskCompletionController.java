@@ -6,6 +6,7 @@ import com.kamilcodemate.todoserver.model.TaskModels.UpdateTaskCompletionModel;
 import com.kamilcodemate.todoserver.service.SubtaskServiceImpl;
 import com.kamilcodemate.todoserver.service.TaskServiceImpl;
 import com.kamilcodemate.todoserver.service.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class UpdateTaskCompletionController {
 
 
     @PutMapping("/api/user-panel/updatetaskcompletion")
-    public ResponseEntity<String> updateTaskCompletion(@RequestBody UpdateTaskCompletionModel requestData, @RequestHeader(name=TOKEN_HEADER) String token) throws InvalidTokenException
+    public ResponseEntity<String> updateTaskCompletion(@RequestBody @Valid UpdateTaskCompletionModel requestData, @RequestHeader(name=TOKEN_HEADER) String token) throws InvalidTokenException
     {
         System.out.println("RequestData = " + requestData);
         Integer retTask = taskService.updateTaskCompletion(requestData.isDone(), requestData.getTaskId(), requestData.getUsername(), token

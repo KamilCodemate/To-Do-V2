@@ -1,6 +1,7 @@
 package com.kamilcodemate.todoserver.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,31 +32,35 @@ public class User {
      * First name of a user
      */
     @Length(min = 2, max = 20)
-    @NotNull
+    @NotNull(message = "User first name cannot be null")
+    @NotBlank(message = "User first name cannot be blank")
     private String firstName;
     /**
      * Last name of a user
      */
     @Length(min = 2, max = 30)
-    @NotNull
+    @NotNull(message = "User last name cannot be null")
+    @NotBlank(message = "User last name cannot be blank")
     private String lastName;
     /**
      * Username of a user
      */
-    @Length(min = 2, max = 15)
-    @NotNull
+    @Length(min = 2, max = 15, message = "User username must contain between 2 and 15 characters")
+    @NotNull(message = "User username cannot be null")
+    @NotBlank(message = "User username cannot be blank")
     @Column(unique = true)
     private String username;
     /**
      * Password of a user
      */
-    @NotNull
+    @NotNull(message = "User password cannot be null")
+    @NotBlank(message = "User password cannot be blank")
     @Column(columnDefinition = "LONGTEXT")
     private String password;
     /**
      * APP ROLE
      */
-    @NotNull
+    @NotNull(message = "user role cannot be null")
     private String role;
     /**
      * Corresponding List of {@link Task} for a user

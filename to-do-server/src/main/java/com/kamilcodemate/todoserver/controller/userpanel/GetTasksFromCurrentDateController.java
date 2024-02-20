@@ -6,6 +6,7 @@ import com.kamilcodemate.todoserver.model.TaskModels.GetAllTasksByDateAPIModel;
 import com.kamilcodemate.todoserver.service.SubtaskServiceImpl;
 import com.kamilcodemate.todoserver.service.TaskServiceImpl;
 import com.kamilcodemate.todoserver.service.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,10 +45,11 @@ public class GetTasksFromCurrentDateController {
      * if successful
      * @throws InvalidTokenException Throws if token is invalid
      */
-    @PostMapping("/api/user-panel/get-tasks-from-current-date")
+    @PostMapping("/api/userpanel/get-tasks-from-current-date")
     public ResponseEntity<List<Task>> getTasksFromCurrentDate (@RequestBody GetAllTasksByDateAPIModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
         List<Task> tasks = taskService.getTaskByDate(requestData.getDate(),
                 requestData.getUsername(), token);
+
         if(tasks != null) return new ResponseEntity<>(tasks, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 

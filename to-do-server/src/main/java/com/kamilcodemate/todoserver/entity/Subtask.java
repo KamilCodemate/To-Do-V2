@@ -29,14 +29,15 @@ public class Subtask {
     /**
      * Name of subtask
      */
-    @NotNull
+    @NotNull(message = "Subtask name cannot be null")
+    @NotNull(message = "Subtask name cannot be null")
     @Length(min = 1, max = 100)
     private String name;
 
     /**
      * Subtask execution status (false - undone; true - done)
      */
-    @NotNull
+    @NotNull(message = "Subtask completion cannot be null")
     private boolean isDone;
 
     /**

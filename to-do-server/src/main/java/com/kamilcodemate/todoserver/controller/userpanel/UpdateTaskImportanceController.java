@@ -5,6 +5,7 @@ import com.kamilcodemate.todoserver.model.TaskModels.UpdateTaskImportanceModel;
 import com.kamilcodemate.todoserver.service.SubtaskServiceImpl;
 import com.kamilcodemate.todoserver.service.TaskServiceImpl;
 import com.kamilcodemate.todoserver.service.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class UpdateTaskImportanceController {
      * @throws InvalidTokenException Throws if token is invalid
      */
     @PutMapping("/api/user-panel/updatetaskimportance")
-    public ResponseEntity<String> updateTaskImportance(@RequestBody UpdateTaskImportanceModel requestData,
+    public ResponseEntity<String> updateTaskImportance(@RequestBody @Valid UpdateTaskImportanceModel requestData,
                                                        @RequestHeader(name = TOKEN_HEADER) String token)
             throws InvalidTokenException {
         Integer retTask = taskService.updateIsImportantTaskAttributeById

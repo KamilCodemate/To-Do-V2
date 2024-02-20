@@ -33,7 +33,7 @@ public class Task {
     /**
      * Name of task
      */
-    @NotNull
+    @NotNull(message = "Task name cannot be null")
     @Length(min = 1, max = 100)
     private String name;
 
@@ -54,12 +54,13 @@ public class Task {
     /**
      * Task execution status (false - undone; true - done)
      */
-    @NotNull
+    @NotNull(message = "Task completion cannot be null")
+
     private boolean isDone;
     /**
      * Task importance status (false - undone; true - done)
      */
-    @NotNull
+    @NotNull(message = "Task importance cannot be null")
     private boolean isImportant;
     /**
      * Task description

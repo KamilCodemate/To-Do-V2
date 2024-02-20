@@ -5,8 +5,8 @@ import com.kamilcodemate.todoserver.entity.Task;
 import com.kamilcodemate.todoserver.exception.InvalidTokenException;
 import com.kamilcodemate.todoserver.model.TaskModels.DeleteTaskRequestModel;
 import com.kamilcodemate.todoserver.service.TaskServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +25,7 @@ public class DeleteTaskController {
     private TaskServiceImpl taskService;
 
     @PostMapping("/api/userpanel/deleteTask")
-    public ResponseEntity<List<Task>> getAllImportantTasks(@RequestBody DeleteTaskRequestModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
+    public ResponseEntity<List<Task>> getAllImportantTasks(@RequestBody @Valid DeleteTaskRequestModel requestData, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException {
         Integer retId = taskService.deleteTaskById(requestData.getTaskId(), requestData.getUsername(), token);
 
         if(retId != null) return new ResponseEntity<>(HttpStatus.OK);

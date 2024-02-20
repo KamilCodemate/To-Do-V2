@@ -5,6 +5,7 @@ import com.kamilcodemate.todoserver.exception.InvalidTokenException;
 import com.kamilcodemate.todoserver.service.SubtaskServiceImpl;
 import com.kamilcodemate.todoserver.service.TaskServiceImpl;
 import com.kamilcodemate.todoserver.service.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -45,7 +46,7 @@ public class GetAllTasksController {
      */
     @PostMapping("/api/userpanel/getalltasks")
     public ResponseEntity<List<Task>>
-    getAllTasks(@RequestBody String data, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException, JSONException {
+    getAllTasks(@RequestBody @Valid String data, @RequestHeader(name = TOKEN_HEADER) String token) throws InvalidTokenException, JSONException {
         JSONObject jsonObject = new JSONObject(data);
         String username = jsonObject.getString("username");
 

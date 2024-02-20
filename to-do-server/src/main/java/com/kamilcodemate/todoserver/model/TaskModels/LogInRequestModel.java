@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LogInRequestModel {
-    @NotNull
-    @NotBlank
+    @NotNull(message = "Please provide username")
+    @NotBlank(message = "Please provide username")
     private String username;
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "Please provide password")
+    @NotBlank(message = "Please provide password")
     private String password;
 }

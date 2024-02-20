@@ -24,7 +24,6 @@ body,
   align-items: center;
   justify-content: center;
   min-height: 830px;
-
   -webkit-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
   -moz-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
   box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
@@ -149,3 +148,18 @@ body,
 //   position: relative;
 //   bottom: 20px;
 // }
+form {
+  margin-bottom: 100px;
+}
+.redirectInfo {
+  font-family: 'Poppins', sans-serif;
+  color: rgb(164, 164, 164);
+
+  .redirectLink {
+    color: black;
+    font-weight: bold;
+  }
+  .redirectLink:hover {
+    cursor: pointer;
+  }
+}

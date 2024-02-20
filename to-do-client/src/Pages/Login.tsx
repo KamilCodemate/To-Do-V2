@@ -66,6 +66,18 @@ const Register: React.FC<{}> = (): React.ReactElement => {
               <input type='submit' value='Continue >>>' />
             </div>
           </form>
+          <span className='redirectInfo'>
+            You dont have an account yet?{' '}
+            <span
+              className='redirectLink'
+              onClick={() => {
+                navigate('/register');
+              }}
+            >
+              {' '}
+              Register new account
+            </span>{' '}
+          </span>
         </div>
 
         <div className='photo-area'>
