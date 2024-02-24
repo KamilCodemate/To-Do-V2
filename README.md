@@ -1,4 +1,4 @@
-# To-Do-V2 ![Status](https://img.shields.io/badge/Status-In%20Development-yellow) ![Completion](https://img.shields.io/badge/-Completed%20about%2075%25-green)
+# To-Do-V2
 
 To Do application made in Spring Boot and React with Typescipt.
 
